@@ -1,16 +1,15 @@
-
-
-
 from dataclasses import dataclass, field
 from typing import Optional
 from uuid import UUID
 
 from apps.base.domain.value_objects import PaginationQuery, SortQuery
 
+
 @dataclass(frozen=True)
 class GetProductCommand:
-    oid: UUID
-    
+    id: UUID
+
+
 @dataclass(frozen=True)
 class GetProductListCommand:
     search: Optional[str] = None
