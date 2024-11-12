@@ -4,12 +4,12 @@ from uuid import UUID
 
 from src.apps.base.helper.errors import fail
 from src.apps.product.domain.entities import CatalogProduct, Product
-from src.apps.product.domain.services import IProductService
-from src.apps.product.infrastructure.repositories import IProductRepository
-from src.apps.product.services.errors import (
+from src.apps.product.domain.errors import (
     ProductIsNotFoundException,
     ProductsAreNotFoundException,
 )
+from src.apps.product.domain.services import IProductService
+from src.apps.product.infrastructure.repositories import IProductRepository
 
 
 @dataclass(frozen=True)
