@@ -4,12 +4,12 @@ from uuid import UUID
 
 from django.db.models import Q
 
-from apps.product.infrastructure.models import ProductDto
+from src.apps.product.infrastructure.models import ProductDto
 
 
 class IProductRepository(ABC):
     @abstractmethod
-    def get_by_id(self, id: UUID) -> Optional[ProductDto]:
+    def get_by_oid(self, oid: UUID) -> Optional[ProductDto]:
         pass
 
     @abstractmethod

@@ -16,8 +16,8 @@ from apps.product.services.errors import (
 class ProductService(IProductService):
     repository: IProductRepository
 
-    def get_by_id(self, id: UUID) -> Product:
-        dto = self.repository.get_by_id(id)
+    def get_by_id(self, oid: UUID) -> Product:
+        dto = self.repository.get_by_oid(oid)
         if not dto:
             fail(ProductIsNotFoundException)
         return dto.to_product_entity()

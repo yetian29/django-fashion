@@ -11,7 +11,6 @@ class ProductDto(BaseDto):
     description = models.TextField(max_length=1024)
     price = models.PositiveBigIntegerField(default=0)
 
-
     def __str__(self) -> str:
         return self.name
 

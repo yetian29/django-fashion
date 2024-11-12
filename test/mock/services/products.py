@@ -1,16 +1,16 @@
-from abc import ABC, abstractmethod
+import random
 from typing import Optional
 from uuid import UUID
 
 from src.apps.product.domain.entities import CatalogProduct, Product
+from src.apps.product.domain.services import IProductService
+from test.mock.factories.products import CataLogProductFactory, ProductFactory
 
 
-class IProductService(ABC):
-    @abstractmethod
+class DummyProductService(IProductService):
     def get_by_oid(self, oid: UUID) -> Product:
-        pass
+        return ProductFactory.build(oid=oid)
 
-    @abstractmethod
     def find_many(
         self,
         sort_field: str,
@@ -19,8 +19,7 @@ class IProductService(ABC):
         offset: int,
         search: Optional[str] = None,
     ) -> list[CatalogProduct]:
-        pass
+        return [CataLogProductFactory.build() for _ in range(random.randint(0, limit))]
 
-    @abstractmethod
     def count_many(self, search: Optional[str] = None) -> int:
-        pass
+        return random.randint(0, 1000)

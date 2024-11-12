@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from uuid import UUID
 
-from apps.base.domain.entities import BaseTime
+from src.apps.base.domain.entities import BaseTime
 
 
 @dataclass(frozen=True)
 class BaseProduct:
-    id: UUID
+    oid: UUID
     name: str
     price: str
 

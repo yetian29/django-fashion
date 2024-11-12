@@ -2,12 +2,12 @@ from dataclasses import dataclass, field
 from typing import Optional
 from uuid import UUID
 
-from apps.base.domain.value_objects import PaginationQuery, SortQuery
+from src.apps.base.domain.value_objects import PaginationQuery, SortQuery
 
 
 @dataclass(frozen=True)
 class GetProductCommand:
-    id: UUID
+    oid: UUID
 
 
 @dataclass(frozen=True)

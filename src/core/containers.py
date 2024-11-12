@@ -15,6 +15,7 @@ from apps.product.services.products import ProductService
 def get_container() -> punq.Container:
     return init_container()
 
+
 def init_container() -> punq.Container:
     container = punq.Container()
 

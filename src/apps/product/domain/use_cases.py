@@ -1,8 +1,8 @@
 from dataclasses import dataclass
 
-from apps.product.domain.commands import GetProductCommand, GetProductListCommand
-from apps.product.domain.entities import Product
-from apps.product.domain.services import IProductService
+from src.apps.product.domain.commands import GetProductCommand, GetProductListCommand
+from src.apps.product.domain.entities import Product
+from src.apps.product.domain.services import IProductService
 
 
 @dataclass(frozen=True)
@@ -10,7 +10,7 @@ class GetProductUseCase:
     service: IProductService
 
     def execute(self, command: GetProductCommand) -> Product:
-        return self.service.get_by_id(id=command.id)
+        return self.service.get_by_oid(oid=command.oid)
 
 
 @dataclass(frozen=True)
