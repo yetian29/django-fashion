@@ -18,9 +18,9 @@ class ProductDto(BaseDto):
         return self.name
 
     @staticmethod
-    def from_entity(self, entity: Product) -> "BaseDto":
+    def from_entity(entity: Product) -> "BaseDto":
         return BaseDto(
-            id=entity.id,
+            oid=entity.oid,
             name=entity.name,
             description=entity.description,
             price=entity.price,
@@ -29,11 +29,11 @@ class ProductDto(BaseDto):
         )
 
     def to_catalog_product_entity(self) -> CatalogProduct:
-        return CatalogProduct(id=self.id, name=self.name, price=self.price)
+        return CatalogProduct(oid=self.oid, name=self.name, price=self.price)
 
     def to_product_entity(self) -> Product:
         return Product(
-            id=self.id,
+            oid=self.oid,
             name=self.name,
             price=self.price,
             description=self.description,

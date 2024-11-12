@@ -29,8 +29,8 @@ class IProductRepository(ABC):
 
 
 class PostgresProductRepository(IProductRepository):
-    def get_by_id(self, id: UUID) -> Optional[ProductDto]:
-        return ProductDto.objects.get(id)
+    def get_by_oid(self, oid: UUID) -> Optional[ProductDto]:
+        return ProductDto.objects.get(oid=oid)
 
     def _build_find_query(search: Optional[str] = None) -> Q:
         query = Q()

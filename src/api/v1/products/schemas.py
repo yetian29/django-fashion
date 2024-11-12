@@ -1,12 +1,12 @@
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel
+from ninja import Schema
 
 from src.apps.product.domain.entities import Product
 
 
-class ProductOutSchema(BaseModel):
+class ProductOutSchema(Schema):
     oid: UUID
     name: str
     description: str
