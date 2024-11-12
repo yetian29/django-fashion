@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.product.domain.entities import Product
+from src.apps.product.domain.entities import Product
 
 # Register your models here.
 
