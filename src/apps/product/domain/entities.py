@@ -1,24 +1,14 @@
 from dataclasses import dataclass
-from uuid import uuid4
+from uuid import UUID
 
 from apps.base.domain.entities import BaseTime
-from apps.product.domain.value_objects import (
-    ProductDescription,
-    ProductId,
-    ProductName,
-    ProductPrice,
-)
 
 
 @dataclass(frozen=True)
 class BaseProduct:
-    id: ProductId
-    name: ProductName
-    price: ProductPrice
-
-    def __post_init__(self) -> None:
-        if not self.id:
-            self.id = ProductId(value=uuid4())
+    id: UUID
+    name: str
+    price: str
 
 
 @dataclass(frozen=True)
@@ -28,4 +18,4 @@ class CatalogProduct(BaseProduct):
 
 @dataclass(frozen=True)
 class Product(BaseProduct, BaseTime):
-    description: ProductDescription
+    description: str

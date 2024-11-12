@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Optional
 from uuid import UUID
 
-from apps.product.domain.entities import Product
+from apps.product.domain.entities import CatalogProduct, Product
 
 
 class IProductService(ABC):
@@ -18,7 +18,7 @@ class IProductService(ABC):
         limit: int,
         offset: int,
         search: Optional[str] = None,
-    ) -> list[Product]:
+    ) -> list[CatalogProduct]:
         pass
 
     @abstractmethod
