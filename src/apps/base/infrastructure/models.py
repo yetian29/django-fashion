@@ -6,7 +6,7 @@ from django.db import models
 
 
 class BaseDto(models.Model):
-    id = models.UUIDField(
+    oid = models.UUIDField(
         primary_key=True, unique=True, default=uuid4(), editable=False
     )
     created_at = models.DateTimeField(auto_now_add=True)

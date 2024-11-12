@@ -2,11 +2,11 @@ from dataclasses import dataclass
 from typing import Optional
 from uuid import UUID
 
-from apps.base.helper.errors import fail
-from apps.product.domain.entities import CatalogProduct, Product
-from apps.product.domain.services import IProductService
-from apps.product.infrastructure.repositories import IProductRepository
-from apps.product.services.errors import (
+from src.apps.base.helper.errors import fail
+from src.apps.product.domain.entities import CatalogProduct, Product
+from src.apps.product.domain.services import IProductService
+from src.apps.product.infrastructure.repositories import IProductRepository
+from src.apps.product.services.errors import (
     ProductIsNotFoundException,
     ProductsAreNotFoundException,
 )

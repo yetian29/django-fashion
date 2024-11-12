@@ -1,4 +1,4 @@
-from apps.base.helper.errors import BaseServiceException
+from src.apps.base.helper.errors import BaseServiceException
 
 
 class ProductIsNotFoundException(BaseServiceException):

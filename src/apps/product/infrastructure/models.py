@@ -1,7 +1,7 @@
 from django.db import models
 
-from apps.base.infrastructure.models import BaseDto
-from apps.product.domain.entities import CatalogProduct, Product
+from src.apps.base.infrastructure.models import BaseDto
+from src.apps.product.domain.entities import CatalogProduct, Product
 
 # Create your models here.
 

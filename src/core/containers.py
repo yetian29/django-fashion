@@ -2,13 +2,13 @@ from functools import lru_cache
 
 import punq
 
-from apps.product.domain.services import IProductService
-from apps.product.domain.use_cases import GetProductListUseCase, GetProductUseCase
-from apps.product.infrastructure.repositories import (
+from src.apps.product.domain.services import IProductService
+from src.apps.product.domain.use_cases import GetProductListUseCase, GetProductUseCase
+from src.apps.product.infrastructure.repositories import (
     IProductRepository,
     PostgresProductRepository,
 )
-from apps.product.services.products import ProductService
+from src.apps.product.services.products import ProductService
 
 
 @lru_cache(1)
