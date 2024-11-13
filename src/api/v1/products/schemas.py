@@ -1,9 +1,27 @@
 from datetime import datetime
+from typing import Optional
 from uuid import UUID
 
 from ninja import Schema
 
-from src.apps.product.domain.entities import Product
+from src.apps.base.domain.value_objects import PaginationQuery, SortOrderEnum, SortQuery
+from src.apps.product.domain.commands import GetProductListCommand
+from src.apps.product.domain.entities import CatalogProductSortFieldsEnum, Product
+
+
+class FindQueryParams(Schema):
+    search: Optional[str] = None
+    sort_field: CatalogProductSortFieldsEnum = CatalogProductSortFieldsEnum.oid  # type: ignore
+    sort_order: SortOrderEnum = SortOrderEnum.asc
+    page: int = 0
+    limit: int = 20
+
+    def to_command(self) -> GetProductListCommand:
+        return GetProductListCommand(
+            search=self.search,
+            sort=SortQuery(sort_field=self.sort_field.name, sort_order=self.sort_order),
+            pagination=PaginationQuery(page=self.page, limit=self.limit),
+        )
 
 
 class ProductOutSchema(Schema):

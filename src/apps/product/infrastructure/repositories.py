@@ -32,7 +32,7 @@ class PostgresProductRepository(IProductRepository):
     def get_by_oid(self, oid: UUID) -> Optional[ProductDto]:
         return ProductDto.objects.get(oid=oid)
 
-    def _build_find_query(search: Optional[str] = None) -> Q:
+    def _build_find_query(self, search: Optional[str] = None) -> Q:
         query = Q()
         if search:
             search_query = ProductDto.objects.filter(
@@ -59,7 +59,7 @@ class PostgresProductRepository(IProductRepository):
             return None
 
         for product in products:
-            yield from product
+            yield product
 
     def count_many(self, search: Optional[str] = None) -> Optional[int]:
         query = self._build_find_query(search)

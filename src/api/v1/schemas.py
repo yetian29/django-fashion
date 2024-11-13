@@ -3,6 +3,17 @@ from typing import Any, Generic, TypeVar
 from ninja import Field, Schema
 
 TData = TypeVar("TData")
+TItems = TypeVar("TItems")
+
+
+class PaginationOutSchema(Schema):
+    page: int = 0
+    limit: int = 20
+
+
+class PaginatedListResponse(Schema, Generic[TItems]):
+    items: TItems | list = Field(default_factory=list)
+    pagination: PaginationOutSchema
 
 
 class ApiResponse(Schema, Generic[TData]):
