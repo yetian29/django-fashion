@@ -10,6 +10,11 @@ class ProductDto(BaseDto):
     name = models.CharField(max_length=64)
     description = models.TextField(max_length=1024)
     price = models.PositiveBigIntegerField(default=0)
+    quantity = models.PositiveSmallIntegerField(default=1)
+
+    @property
+    def cost(self) -> int:
+        return self.price * self.quantity
 
     def __str__(self) -> str:
         return self.name

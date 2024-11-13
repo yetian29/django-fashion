@@ -9,7 +9,7 @@ from src.apps.product.infrastructure.models import ProductDto
 
 class CartDto(BaseDto):
     name = models.CharField(default="Cart", editable=False)
-    products = models.ManyToManyField(ProductDto)
+    products = models.ManyToManyField(ProductDto, default=None, null=True)
     is_active = models.BooleanField(default=False)
 
     def __str__(self) -> str:

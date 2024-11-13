@@ -18,6 +18,7 @@ class CatalogProduct(BaseProduct):
 @dataclass(frozen=True)
 class Product(BaseProduct, BaseTime):
     description: str
+    quantity: int
 
     def __eq__(self, obj: object) -> bool:
         if isinstance(obj, Product):
