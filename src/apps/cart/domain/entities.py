@@ -4,7 +4,8 @@ from src.apps.base.domain.entities import BaseOid, BaseTime
 from src.apps.product.domain.entities import Product
 
 
-@dataclass
+@dataclass(frozen=True)
 class Cart(BaseOid, BaseTime):
-    items: set[Product]
+    name: str
+    products: set[Product]
     is_active: bool

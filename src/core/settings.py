@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     # project apps
     "src.apps.base",
     "src.apps.product",
+    "src.apps.cart",
 ]
 
 MIDDLEWARE = [

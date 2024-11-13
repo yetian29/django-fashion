@@ -8,13 +8,17 @@ from src.apps.product.infrastructure.models import ProductDto
 
 
 class CartDto(BaseDto):
-    items = models.ManyToManyField(ProductDto)
+    name = models.CharField(default="Cart", editable=False)
+    products = models.ManyToManyField(ProductDto)
     is_active = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return self.name
 
     def to_entity(self) -> Cart:
         return Cart(
             oid=self.oid,
-            items=self.items,
+            products=self.products,
             is_active=self.is_active,
             created_at=self.created_at,
             updated_at=self.updated_at,

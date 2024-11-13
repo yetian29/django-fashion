@@ -8,11 +8,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
     initial = True
 
-    dependencies = []
+    dependencies = [
+        ("product", "0001_initial"),
+    ]
 
     operations = [
         migrations.CreateModel(
-            name="ProductDto",
+            name="CartDto",
             fields=[
                 (
                     "oid",
@@ -26,12 +28,12 @@ class Migration(migrations.Migration):
                 ),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
-                ("name", models.CharField(max_length=64)),
-                ("description", models.TextField(max_length=1024)),
-                ("price", models.PositiveBigIntegerField(default=0)),
+                ("name", models.CharField(default="Cart")),
+                ("is_active", models.BooleanField(default=False)),
+                ("products", models.ManyToManyField(to="product.productdto")),
             ],
             options={
-                "verbose_name": "ProductDto",
+                "verbose_name": "CartDto",
             },
         ),
     ]
