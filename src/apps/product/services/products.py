@@ -35,7 +35,7 @@ class ProductService(IProductService):
         )
         if not products:
             fail(ProductsAreNotFoundException)
-        return products
+        return [product.to_catalog_product_entity() for product in products]
 
     def count_many(self, search: Optional[str] = None) -> int:
         count = self.repository.count_many(search)

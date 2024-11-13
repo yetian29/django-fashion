@@ -6,7 +6,11 @@ from ninja import Schema
 
 from src.apps.base.domain.value_objects import PaginationQuery, SortOrderEnum, SortQuery
 from src.apps.product.domain.commands import GetProductListCommand
-from src.apps.product.domain.entities import CatalogProductSortFieldsEnum, Product
+from src.apps.product.domain.entities import (
+    CatalogProduct,
+    CatalogProductSortFieldsEnum,
+    Product,
+)
 
 
 class FindQueryParams(Schema):
@@ -21,6 +25,20 @@ class FindQueryParams(Schema):
             search=self.search,
             sort=SortQuery(sort_field=self.sort_field.name, sort_order=self.sort_order),
             pagination=PaginationQuery(page=self.page, limit=self.limit),
+        )
+
+
+class CatalogProductOutSchema(Schema):
+    oid: UUID
+    name: str
+    price: int
+
+    @staticmethod
+    def from_entity(entity: CatalogProduct) -> "CatalogProductOutSchema":
+        return CatalogProductOutSchema(
+            oid=entity.oid,
+            name=entity.name,
+            price=entity.price,
         )
 
 

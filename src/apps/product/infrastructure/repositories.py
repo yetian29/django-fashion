@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Iterable, Optional
+from typing import Optional
 from uuid import UUID
 
 from django.db.models import Q
@@ -20,7 +20,7 @@ class IProductRepository(ABC):
         limit: int,
         offset: int,
         search: Optional[str] = None,
-    ) -> Optional[Iterable[ProductDto]]:
+    ) -> Optional[list[ProductDto]]:
         pass
 
     @abstractmethod
@@ -48,7 +48,7 @@ class PostgresProductRepository(IProductRepository):
         limit: int,
         offset: int,
         search: Optional[str] = None,
-    ) -> Optional[Iterable[ProductDto]]:
+    ) -> Optional[list[ProductDto]]:
         query = self._build_find_query(search)
         order = "-" if sort_order == -1 else ""
         sort_by_field = f"{order}{sort_field}"
@@ -57,9 +57,7 @@ class PostgresProductRepository(IProductRepository):
         ]
         if not products:
             return None
-
-        for product in products:
-            yield product
+        return list(products)
 
     def count_many(self, search: Optional[str] = None) -> Optional[int]:
         query = self._build_find_query(search)
