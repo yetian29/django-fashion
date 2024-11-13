@@ -11,22 +11,8 @@ class ProductDto(BaseDto):
     description = models.TextField(max_length=1024)
     price = models.PositiveBigIntegerField(default=0)
 
-    class Meta:
-        verbose_name = "ProductDto"
-
     def __str__(self) -> str:
         return self.name
-
-    @staticmethod
-    def from_entity(entity: Product) -> "BaseDto":
-        return BaseDto(
-            oid=entity.oid,
-            name=entity.name,
-            description=entity.description,
-            price=entity.price,
-            created_at=entity.created_at,
-            updated_at=entity.updated_at,
-        )
 
     def to_catalog_product_entity(self) -> CatalogProduct:
         return CatalogProduct(oid=self.oid, name=self.name, price=self.price)
@@ -40,3 +26,6 @@ class ProductDto(BaseDto):
             created_at=self.created_at,
             updated_at=self.updated_at,
         )
+
+    class Meta:
+        verbose_name = "ProductDto"
