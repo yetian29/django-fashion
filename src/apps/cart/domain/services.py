@@ -31,5 +31,5 @@ class ICartService(ABC):
         pass
 
     @abstractmethod
-    def check_product_qty_limit():
+    def check_product_qty_limit() -> bool:
         pass

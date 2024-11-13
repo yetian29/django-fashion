@@ -19,6 +19,7 @@ class CatalogProduct(BaseProduct):
 class Product(BaseProduct, BaseTime):
     description: str
     quantity: int
+    cost: int
 
     def __eq__(self, obj: object) -> bool:
         if isinstance(obj, Product):
