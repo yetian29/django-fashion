@@ -7,8 +7,9 @@ TItems = TypeVar("TItems")
 
 
 class PaginationOutSchema(Schema):
-    page: int = 0
-    limit: int = 20
+    page: int
+    limit: int
+    total: int
 
 
 class PaginatedListResponse(Schema, Generic[TItems]):
