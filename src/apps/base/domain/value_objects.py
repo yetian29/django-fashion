@@ -6,12 +6,7 @@ from src.apps.cart.domain.errors import QtyInvalidException
 
 
 @dataclass(frozen=True)
-class ValueObject:
-    pass
-
-
-@dataclass(frozen=True)
-class Qty(ValueObject):
+class Qty:
     value: int
 
     def __post_init__(self) -> None:
@@ -25,13 +20,13 @@ class SortOrderEnum(int, Enum):
 
 
 @dataclass(frozen=True)
-class SortQuery(ValueObject):
+class SortQuery:
     sort_field: str = "oid"
     sort_order: SortOrderEnum = SortOrderEnum.asc
 
 
 @dataclass(frozen=True)
-class PaginationQuery(ValueObject):
+class PaginationQuery:
     page: int = 0
     limit: int = 20
 
