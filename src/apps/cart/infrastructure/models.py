@@ -13,24 +13,36 @@ class CartStatus(models.TextChoices):
     FULL = "FULL", "Full Cart"
 
 
+class CarItem(BaseDto):
+    product = models.OneToOneField(ProductDto, on_delete=models.CASCADE)
+    qty = models.PositiveSmallIntegerField(default=1)
+    MAX_QTY = 10
+
+    @property
+    def cost(self) -> int:
+        return self.product.price * self.qty
+
+    def validate_qty(self) -> None:
+        if self.qty > 10:
+            raise ValueError("Qty has to small or equal 10")
+
+
 class CartDto(BaseDto):
-    name = models.CharField(default="Cart", editable=False)
-    products = models.ManyToManyField(ProductDto, default=None, blank=True)
+    items = models.ManyToManyField(CarItem, default=None, blank=True)
     status = models.CharField(choices=CartStatus.choices, default=CartStatus.EMPTY)
     is_active = models.BooleanField(default=False)
-
     MAX_PRODUCTS = 10
 
     def __str__(self) -> str:
         return self.name
 
     @property
-    def cost(self) -> int:
-        return sum([product.cost for product in self.products.all()])
+    def total_price(self) -> int:
+        return sum([item.cost for item in self.items.all()])
 
     @property
-    def count(self) -> int:
-        return self.products.count()
+    def total_count(self) -> int:
+        return self.items.count()
 
     def update_status(self) -> None:
         if self.count == 0:
@@ -43,8 +55,7 @@ class CartDto(BaseDto):
     def to_entity(self) -> Cart:
         return Cart(
             oid=self.oid,
-            name=self.name,
-            products=self.products,
+            items=self.items,
             status=self.status,
             is_active=self.is_active,
             created_at=self.created_at,

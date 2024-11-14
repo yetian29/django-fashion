@@ -17,4 +17,5 @@ class Cart(BaseOid, BaseTime):
     items: set[CartItem]
     total_count: int
     total_price: int
+    is_active: bool
     status: CartStatusEnum
