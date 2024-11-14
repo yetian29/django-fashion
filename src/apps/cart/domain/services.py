@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
 
-from src.apps.cart.domain.entities import Cart
-from src.apps.product.domain.entities import Product
+from src.apps.cart.domain.entities import Cart, CartItem
 
 
 class ICartService(ABC):
@@ -11,25 +10,21 @@ class ICartService(ABC):
         pass
 
     @abstractmethod
-    def add_product(self, product: Product) -> Product:
+    def add_item(self, product: CartItem) -> CartItem:
         pass
 
     @abstractmethod
-    def update_product_qty(self, product_oid: UUID, qty: int) -> Product:
+    def update_item(self, product_oid: UUID, qty: int) -> CartItem:
         pass
 
     @abstractmethod
-    def remove_product(self, product_oid: UUID) -> Product:
+    def remove_item(self, product_oid: UUID) -> CartItem:
         pass
 
     @abstractmethod
-    def clear(self) -> list[Product]:
+    def clear_item(self) -> list[CartItem]:
         pass
 
     @abstractmethod
-    def increase_product_qty(product_oid: UUID, qty: int) -> Product:
-        pass
-
-    @abstractmethod
-    def check_product_qty_limit() -> bool:
+    def increase_item_qty(self, product_oid: UUID, qty: int) -> CartItem:
         pass

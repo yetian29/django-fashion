@@ -1,10 +1,22 @@
 from dataclasses import dataclass
 from enum import Enum
 
+from src.apps.base.helper.errors import fail
+from src.apps.cart.domain.errors import QtyInvalidException
+
 
 @dataclass(frozen=True)
 class ValueObject:
     pass
+
+
+@dataclass(frozen=True)
+class Qty(ValueObject):
+    value: int
+
+    def __post_init__(self) -> None:
+        if not self.value or self.value < 0 or self.value > 10:
+            fail(QtyInvalidException)
 
 
 class SortOrderEnum(int, Enum):

@@ -12,14 +12,15 @@ class BaseProduct(BaseOid):
 
 @dataclass(frozen=True)
 class CatalogProduct(BaseProduct):
-    pass
+    def __eq__(self, obj: object) -> bool:
+        if isinstance(obj, CatalogProduct):
+            return self.oid == self.obj
+        return False
 
 
 @dataclass(frozen=True)
 class Product(BaseProduct, BaseTime):
     description: str
-    quantity: int
-    cost: int
 
     def __eq__(self, obj: object) -> bool:
         if isinstance(obj, Product):

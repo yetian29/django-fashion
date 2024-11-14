@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from uuid import UUID
 
-from src.apps.product.domain.entities import Product
+from src.apps.product.domain.entities import CatalogProduct
 
 
 @dataclass(frozen=True)
@@ -10,27 +10,27 @@ class GetCartCommand:
 
 
 @dataclass(frozen=True)
-class AddProductCommand:
-    product: Product
+class AddItemCommand:
+    product: CatalogProduct
 
 
 @dataclass(frozen=True)
-class UpdateProductQtyCommand:
+class UpdateItemQtyCommand:
     product_oid: UUID
     qty: int
 
 
 @dataclass(frozen=True)
-class RemoveProductCommand:
+class RemoveItemCommand:
     product_oid: UUID
 
 
 @dataclass(frozen=True)
-class ClearCartCommand:
+class ClearItemCommand:
     pass
 
 
 @dataclass(frozen=True)
-class IncreaseProductQtyCommand:
+class IncreaseItemQtyCommand:
     product_oid: UUID
     qty: int
