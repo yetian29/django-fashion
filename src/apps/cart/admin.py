@@ -6,14 +6,14 @@ from src.apps.cart.infrastructure.models import CartDto
 
 
 class CartDtoAdmin(admin.ModelAdmin):
-    list_display = ["oid", "get_products", "created_at", "updated_at", "is_active"]
+    list_display = ["oid", "get_items", "created_at", "updated_at", "is_active"]
     list_display_links = ["oid"]
-    filter_horizontal = ["products"]
+    filter_horizontal = ["items"]
 
-    def get_products(self, obj: object) -> str:
-        return ", ".join([str(product) for product in obj.products.all()])
+    def get_items(self, obj: object) -> str:
+        return ", ".join([str(item) for item in obj.items.all()])
 
-    get_products.short_description = "products"  # Column Header in admin
+    get_items.short_description = "items"  # Column Header in admin
 
 
 admin.site.register(CartDto, CartDtoAdmin)
