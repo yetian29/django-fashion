@@ -10,21 +10,17 @@ class ICartService(ABC):
         pass
 
     @abstractmethod
-    def add_item(self, product: CartItem) -> CartItem:
+    def add_item(self, item: CartItem) -> CartItem:
         pass
 
     @abstractmethod
-    def update_item(self, product_oid: UUID, qty: int) -> CartItem:
+    def update_item(self, item: CartItem) -> CartItem:
         pass
 
     @abstractmethod
-    def remove_item(self, product_oid: UUID) -> CartItem:
+    def remove_item(self, item_oid: UUID) -> CartItem:
         pass
 
     @abstractmethod
     def clear_item(self) -> list[CartItem]:
-        pass
-
-    @abstractmethod
-    def increase_item_qty(self, product_oid: UUID, qty: int) -> CartItem:
         pass

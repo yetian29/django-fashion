@@ -13,10 +13,13 @@ class CartStatus(models.TextChoices):
     FULL = "FULL", "Full Cart"
 
 
-class CarItem(BaseDto):
+class CartItemDto(BaseDto):
     product = models.OneToOneField(ProductDto, on_delete=models.CASCADE)
     qty = models.PositiveSmallIntegerField(default=1)
     MAX_QTY = 10
+
+    def __post_init__(self) -> None:
+        self.validate_qty()
 
     @property
     def cost(self) -> int:
@@ -28,7 +31,7 @@ class CarItem(BaseDto):
 
 
 class CartDto(BaseDto):
-    items = models.ManyToManyField(CarItem, default=None, blank=True)
+    items = models.ManyToManyField(CartItemDto, default=None, blank=True)
     status = models.CharField(choices=CartStatus.choices, default=CartStatus.EMPTY)
     is_active = models.BooleanField(default=False)
     MAX_PRODUCTS = 10
