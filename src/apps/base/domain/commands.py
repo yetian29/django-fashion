@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 
 
@@ -10,7 +10,7 @@ class SortOrderEnum(int, Enum):
 @dataclass(frozen=True)
 class SortQueryParams:
     sort_field: str = "oid"
-    sort_order: SortOrderEnum = field(default_factory=SortOrderEnum)
+    sort_order: SortOrderEnum = SortOrderEnum.asc
 
 
 @dataclass(frozen=True)

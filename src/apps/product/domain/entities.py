@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from src.apps.base.domain.entities import BaseOid
+from src.apps.base.domain.entities import BaseOid, BaseTime
 
 
 @dataclass
@@ -18,7 +18,7 @@ class CatalogProduct(BaseProduct):
 
 
 @dataclass
-class DetailProduct(BaseProduct):
+class DetailProduct(BaseProduct, BaseTime):
     description: str
 
     def __eq__(self, obj: object) -> bool:

@@ -19,11 +19,11 @@ class IProductRepository(ABC):
         limit: int,
         offset: int,
         search: str | None = None,
-    ) -> list[ProductORM]:
+    ) -> list[ProductORM] | None:
         pass
 
     @abstractmethod
-    def count_many(self, search: str | None = None) -> int:
+    def count_many(self, search: str | None = None) -> int | None:
         pass
 
 
