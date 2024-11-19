@@ -34,7 +34,7 @@ class PostgresProductRepository(IProductRepository):
     def _build_find_query(self, search: str | None = None) -> Q:
         query = Q()
         if search:
-            search_query = Q(name__incontains=search) | Q(description__icontains=search)
+            search_query = Q(name__icontains=search) | Q(description__icontains=search)
             query &= search_query
         return query
 
