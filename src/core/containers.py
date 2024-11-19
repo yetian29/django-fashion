@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 import punq
 
 from src.apps.product.domain.services import IProductService
@@ -7,6 +9,11 @@ from src.apps.product.infrastructure.repositories import (
     PostgresProductRepository,
 )
 from src.apps.product.services.products import ProductService
+
+
+@lru_cache(1)
+def get_container() -> punq.Container:
+    return init_container()
 
 
 def init_container() -> punq.Container:

@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, fields
+from enum import Enum
 
 from src.apps.base.domain.entities import BaseOid, BaseTime
 
@@ -25,3 +26,9 @@ class DetailProduct(BaseProduct, BaseTime):
         if isinstance(obj, self.__class__):
             return self.oid == obj.oid
         return False
+
+
+ProductSortFieldsEnum = Enum(
+    "ProductSortFieldsEnum",
+    {field.name: field.name for field in fields(CatalogProduct)},
+)

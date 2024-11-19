@@ -31,7 +31,7 @@ class PostgresProductRepository(IProductRepository):
     def get_by_oid(self, oid: UUID) -> ProductORM | None:
         return ProductORM.objects.get(oid=oid)
 
-    def _build_find_query(search: str | None = None) -> Q:
+    def _build_find_query(self, search: str | None = None) -> Q:
         query = Q()
         if search:
             search_query = Q(name__incontains=search) | Q(description__icontains=search)
