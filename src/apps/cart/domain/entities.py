@@ -20,7 +20,12 @@ class Cart(BaseOid, BaseTime):
 
 
 @dataclass
-class CartItem:
+class CartItem(BaseOid):
     cart_oid: UUID
     product: CatalogProduct
     quantity: int
+
+    def __eq__(self, obj: object) -> bool:
+        if isinstance(obj, self.__class__):
+            return self.oid == obj.oid
+        return False
