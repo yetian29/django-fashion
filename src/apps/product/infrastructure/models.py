@@ -32,4 +32,4 @@ class ProductORM(BaseOidORM, BaseTimeORM):
         )
 
     class Meta:
-        verbose_name = "ProductORM"
+        verbose_name_plural = "ProductORM"

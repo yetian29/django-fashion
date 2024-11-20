@@ -19,14 +19,19 @@ class CartItemORM(models.Model):
     def cost(self) -> int:
         return self.product.price * self.quantity
 
+    def __str__(self) -> str:
+        return f"CartItem {self.product.name}"
+
     class Meta:
-        verbose_name = "CartItemORM"
+        verbose_name_plural = "CartItemORM"
 
 
 class CartORM(BaseOidORM, BaseTimeORM):
     items = models.ForeignKey(CartItemORM, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
-    status = models.CharField(choices=CartStatus.choices, default=CartStatus.EMPTY)
+    status = models.CharField(
+        max_length=16, choices=CartStatus.choices, default=CartStatus.EMPTY
+    )
 
     def __str__(self) -> str:
         return "Car user"
@@ -40,4 +45,4 @@ class CartORM(BaseOidORM, BaseTimeORM):
         return [sum(item.cost) for item in self.items]
 
     class Meta:
-        verbose_name = "CartORM"
+        verbose_name_plural = "CartORM"
