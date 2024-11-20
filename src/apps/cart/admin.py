@@ -9,6 +9,8 @@ from src.apps.cart.infrastructure.models import CartItemORM, CartORM
 class CartItemORMAdmin(admin.ModelAdmin):
     list_display = ["product", "quantity"]
 
+    list_display_links = ["product"]
+
 
 @admin.register(CartORM)
 class CartORMAdmin(admin.ModelAdmin):
