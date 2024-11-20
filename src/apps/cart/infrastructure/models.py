@@ -38,11 +38,11 @@ class CartORM(BaseOidORM, BaseTimeORM):
 
     @property
     def total_count(self) -> int:
-        return [sum(item.quantity) for item in self.items]
+        return sum(item.quantity for item in self.items.all())
 
     @property
     def total_price(self) -> int:
-        return [sum(item.cost) for item in self.items]
+        return sum(item.cost for item in self.items.all())
 
     class Meta:
         verbose_name_plural = "CartORM"
