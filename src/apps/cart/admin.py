@@ -15,11 +15,19 @@ class CartORMAdmin(admin.ModelAdmin):
     inlines = [CartItemORMInline]
     list_display = [
         "oid",
-        "is_active",
+        "items",
         "status",
         "total_count",
         "total_price",
         "created_at",
         "updated_at",
+        "is_active",
     ]
     list_display_links = ["oid"]
+
+    @admin.display(description="ITEMS")
+    def items(self, obj: object) -> str:
+        return ", ".join(
+            f"{item.product.name} (qty: {item.quantity}) (price: {item.product.price})"
+            for item in obj.items.all()
+        )
