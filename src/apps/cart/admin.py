@@ -5,18 +5,16 @@ from src.apps.cart.infrastructure.models import CartItemORM, CartORM
 # Register your models here.
 
 
-@admin.register(CartItemORM)
-class CartItemORMAdmin(admin.ModelAdmin):
-    list_display = ["product", "quantity"]
-
-    list_display_links = ["product"]
+class CartItemORMInline(admin.TabularInline):
+    model = CartItemORM
+    fk_name = "cart"
 
 
 @admin.register(CartORM)
 class CartORMAdmin(admin.ModelAdmin):
+    inlines = [CartItemORMInline]
     list_display = [
         "oid",
-        "items",
         "is_active",
         "status",
         "total_count",

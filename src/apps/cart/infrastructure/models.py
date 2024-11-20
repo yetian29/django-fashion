@@ -11,23 +11,7 @@ class CartStatus(models.TextChoices):
     FULL = "FULL CART"
 
 
-class CartItemORM(models.Model):
-    product = models.OneToOneField(ProductORM, on_delete=models.CASCADE)
-    quantity = models.PositiveSmallIntegerField(default=1)
-
-    @property
-    def cost(self) -> int:
-        return self.product.price * self.quantity
-
-    def __str__(self) -> str:
-        return f"CartItem {self.product.name}"
-
-    class Meta:
-        verbose_name_plural = "CartItemORM"
-
-
 class CartORM(BaseOidORM, BaseTimeORM):
-    items = models.ForeignKey(CartItemORM, on_delete=models.CASCADE)
     is_active = models.BooleanField(default=False)
     status = models.CharField(
         max_length=16, choices=CartStatus.choices, default=CartStatus.EMPTY
@@ -46,3 +30,16 @@ class CartORM(BaseOidORM, BaseTimeORM):
 
     class Meta:
         verbose_name_plural = "CartORM"
+
+
+class CartItemORM(BaseOidORM):
+    cart = models.ForeignKey(CartORM, on_delete=models.PROTECT, related_name="items")
+    product = models.OneToOneField(ProductORM, on_delete=models.CASCADE)
+    quantity = models.PositiveSmallIntegerField(default=1)
+
+    @property
+    def cost(self) -> int:
+        return self.product.price * self.quantity
+
+    class Meta:
+        verbose_name_plural = "CartItemORM"
