@@ -5,12 +5,7 @@ from src.apps.cart.domain.entities import Cart, CartItem
 
 
 @dataclass(frozen=True)
-class GetCartCommand:
-    oid: UUID
-
-
-@dataclass(frozen=True)
-class CreateCartCommand:
+class GetOrCreateCartCommand:
     cart: Cart
 
 

@@ -6,11 +6,7 @@ from src.apps.cart.domain.entities import Cart, CartItem
 
 class ICartService(ABC):
     @abstractmethod
-    def get_cart_by_oid(self, oid: UUID) -> Cart:
-        pass
-
-    @abstractmethod
-    def create_cart(self, cart: Cart) -> Cart:
+    def get_or_create_cart(self, cart: Cart) -> Cart:
         pass
 
     @abstractmethod
