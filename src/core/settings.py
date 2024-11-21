@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     # Project apps
     "src.apps.base",
     "src.apps.product",
+    "src.apps.user_auth",
     "src.apps.cart",
 ]
 
