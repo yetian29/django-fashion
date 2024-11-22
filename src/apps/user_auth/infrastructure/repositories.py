@@ -37,5 +37,7 @@ class PostgresUserAuthRepository(IUserAuthRepository):
 
     def update(self, user_auth_orm: UserAuthORM) -> UserAuthORM:
         return UserAuthORM.objects.filter(oid=user_auth_orm.oid).update(
-            is_active=user_auth_orm.is_active, token=user_auth_orm.token
+            is_active=user_auth_orm.is_active,
+            token=user_auth_orm.token,
+            updated_at=user_auth_orm.updated_at,
         )
