@@ -62,6 +62,7 @@ class LoginService(ILoginService):
     def active_and_generate_token(self, user_auth: UserAuth) -> str:
         user_auth.is_active = True
         user_auth.token = str(uuid4())
+        user_auth.updated_at = datetime.now()
         return user_auth.token
 
 
@@ -86,8 +87,9 @@ class UserAuthService(IUserAuthService):
                 phone_number=user_auth.phone_number, email=user_auth.email
             )
         except UserAuthIsNotFoundException:
-            user_auth_orm = UserAuthORM.from_entity(user_auth)
-            user_auth_orm = self.repository.create(user_auth_orm=user_auth_orm)
+            user_auth_orm = self.repository.create(
+                phone_number=user_auth.phone_number, email=user_auth.email
+            )
             return user_auth_orm.to_entity()
 
     def update(self, user_auth: UserAuth) -> UserAuth:
