@@ -89,3 +89,7 @@ class UserAuthService(IUserAuthService):
             user_auth_orm = UserAuthORM.from_entity(user_auth)
             user_auth_orm = self.repository.create(user_auth_orm=user_auth_orm)
             return user_auth_orm.to_entity()
+
+    def update(self, user_auth: UserAuth) -> UserAuth:
+        user_auth_orm = UserAuthORM.from_entity(user_auth)
+        self.repository.update(user_auth_orm=user_auth_orm)

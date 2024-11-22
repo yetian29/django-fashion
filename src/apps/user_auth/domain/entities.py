@@ -1,12 +1,14 @@
 from dataclasses import dataclass
+from datetime import datetime
 from uuid import UUID
-
-from src.apps.base.domain.entities import BaseOid, BaseTime
 
 
 @dataclass
-class UserAuth(BaseOid, BaseTime):
-    phone_number: str
-    email: str
-    token: UUID
-    is_active: bool
+class UserAuth:
+    oid: UUID | None = None
+    phone_number: str | None = None
+    email: str | None = None
+    token: UUID | None = None
+    is_active: bool = False
+    created_at: datetime | None = None
+    updated_at: datetime | None = None

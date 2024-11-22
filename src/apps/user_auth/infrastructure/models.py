@@ -1,3 +1,5 @@
+from uuid import uuid4
+
 from django.db import models
 
 from src.apps.base.infrastructure.models import BaseOidORM, BaseTimeORM
@@ -14,7 +16,17 @@ class UserAuthORM(BaseOidORM, BaseTimeORM):
 
     @staticmethod
     def from_entity(entity: UserAuth) -> "UserAuthORM":
-        return UserAuthORM(phone_number=entity.phone_number, email=entity.email)
+        if not entity.oid:
+            entity.oid = uuid4()
+        return UserAuthORM(
+            oid=entity.oid,
+            phone_number=entity.phone_number,
+            email=entity.email,
+            token=entity.token,
+            is_active=entity.is_active,
+            created_at=entity.created_at,
+            updated_at=entity.updated_at,
+        )
 
     def to_entity(self) -> UserAuth:
         return UserAuth(

@@ -3,7 +3,8 @@ from uuid import UUID
 
 from ninja import Schema
 from pydantic import field_validator, model_validator
-from typing_extensions import Self
+
+from src.apps.user_auth.domain.entities import UserAuth
 
 
 class BaseValidateSchema(Schema):
@@ -18,7 +19,7 @@ class BaseValidateSchema(Schema):
             return None
         elif not value.isdigit():
             raise ValueError("Invalid phone number. The phone number has to be digits.")
-        elif len(str) != 10:
+        elif len(value) != 10:
             raise ValueError(
                 "Invalid phone number. The phone number has to be 10 digit."
             )
@@ -38,17 +39,22 @@ class BaseValidateSchema(Schema):
         return value
 
     @model_validator(mode="after")
-    def validate_model(self) -> Self:
+    def validate_model(self) -> "BaseValidateSchema":
         phone_number = self.phone_number
         email = self.email
         if not phone_number and not email:
             raise ValueError("Invalid. The phone number or email have to be provided.")
         elif phone_number and email:
             raise ValueError("Invalid. Not allowed has both phone number and email.")
+        return self
 
 
 class AuthorizeUserAuthInSchema(BaseValidateSchema):
-    pass
+    def to_entity(self) -> UserAuth:
+        return UserAuth(
+            phone_number=self.phone_number,
+            email=self.email,
+        )
 
 
 class AuthorizeUserAuthOutSchema(Schema):
