@@ -5,7 +5,7 @@ from src.apps.user_auth.domain.entities import UserAuth
 
 @dataclass(frozen=True)
 class AuthorizeUserAuthCommand:
-    user: UserAuth
+    user_auth: UserAuth
 
 
 @dataclass(frozen=True)

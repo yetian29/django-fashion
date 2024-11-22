@@ -19,7 +19,7 @@ class AuthorizeUserAuthUseCase:
     user_auth_service: IUserAuthService
 
     def execute(self, command: AuthorizeUserAuthCommand) -> str:
-        user = self.user_auth_service.get_or_create(user=command.user)
+        user = self.user_auth_service.get_or_create(user_auth=command.user_auth)
         code = self.code_service.generate_code(
             phone_number=user.phone_number, email=user.email
         )

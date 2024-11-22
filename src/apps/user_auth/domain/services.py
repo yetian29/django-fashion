@@ -25,15 +25,11 @@ class ISendCodeService(ABC):
 
 class ILoginService(ABC):
     @abstractmethod
-    def active_and_generate_token(self, user: UserAuth) -> str:
+    def active_and_generate_token(self, user_auth: UserAuth) -> str:
         pass
 
 
 class IUserAuthService(ABC):
-    @abstractmethod
-    def get_or_create(self, user: UserAuth) -> UserAuth:
-        pass
-
     @abstractmethod
     def get_by_phone_number_or_email(
         self, phone_number: str | None = None, email: str | None = None
@@ -41,5 +37,9 @@ class IUserAuthService(ABC):
         pass
 
     @abstractmethod
-    def update(self, user: UserAuth) -> UserAuth:
+    def get_or_create(self, user_auth: UserAuth) -> UserAuth:
+        pass
+
+    @abstractmethod
+    def update(self, user_auth: UserAuth) -> UserAuth:
         pass
