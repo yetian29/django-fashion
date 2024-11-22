@@ -42,4 +42,4 @@ class CartItemORM(BaseOidORM):
         return self.product.price * self.quantity
 
     class Meta:
-        verbose_name_plural = "CartItemORM"
+        verbose_name = "CartItemORM"
