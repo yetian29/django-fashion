@@ -1,11 +1,12 @@
 from dataclasses import dataclass, fields
+from datetime import datetime
 from enum import Enum
-
-from src.apps.base.domain.entities import BaseOid, BaseTime
+from uuid import UUID
 
 
 @dataclass
-class BaseProduct(BaseOid):
+class BaseProduct:
+    oid: UUID
     name: str
     price: int
 
@@ -19,8 +20,10 @@ class CatalogProduct(BaseProduct):
 
 
 @dataclass
-class DetailProduct(BaseProduct, BaseTime):
+class DetailProduct(BaseProduct):
     description: str
+    created_at: datetime
+    updated_at: datetime
 
     def __eq__(self, obj: object) -> bool:
         if isinstance(obj, self.__class__):
