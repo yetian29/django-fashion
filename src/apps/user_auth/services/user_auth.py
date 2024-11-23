@@ -1,7 +1,7 @@
 import random
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from uuid import uuid4
+from uuid import UUID, uuid4
 
 from django.core.cache import cache
 
@@ -27,7 +27,7 @@ class CodeService(ICodeService):
     def generate_code(
         self, phone_number: str | None = None, email: str | None = None
     ) -> str:
-        code = random.randint(100000, 999999)
+        code = str(random.randint(100000, 999999))
         ttl = timedelta(minutes=1)
         cached_data = {"code": code, "expire_time": datetime.now() + ttl}
         key = phone_number if phone_number else email
@@ -42,12 +42,12 @@ class CodeService(ICodeService):
         if not cached_data:
             fail(CachedDataAreNotFoundException)
         elif datetime.now() > cached_data.get("expire_time"):
-            del cache[key]
+            cache.delete(key)
             fail(CodeIsExpiredException)
         elif code != cached_data.get("code"):
-            del cache[key]
+            cache.delete(key)
             fail(CodesAreNotEqualException)
-        del cache[key]
+        cache.delete(key)
 
 
 class SendCodeService(ISendCodeService):
@@ -59,9 +59,9 @@ class SendCodeService(ISendCodeService):
 
 
 class LoginService(ILoginService):
-    def active_and_generate_token(self, user_auth: UserAuth) -> str:
+    def active_and_generate_token(self, user_auth: UserAuth) -> UUID:
         user_auth.is_active = True
-        user_auth.token = str(uuid4())
+        user_auth.token = uuid4()
         user_auth.updated_at = datetime.now()
         return user_auth.token
 
@@ -87,8 +87,9 @@ class UserAuthService(IUserAuthService):
                 phone_number=user_auth.phone_number, email=user_auth.email
             )
         except UserAuthIsNotFoundException:
+            user_auth_orm = UserAuthORM.from_entity(user_auth)
             user_auth_orm = self.repository.create(
-                phone_number=user_auth.phone_number, email=user_auth.email
+                phone_number=user_auth_orm.phone_number, email=user_auth_orm.email
             )
             return user_auth_orm.to_entity()
 

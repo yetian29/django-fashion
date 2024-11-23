@@ -13,7 +13,9 @@ class IUserAuthRepository(ABC):
         pass
 
     @abstractmethod
-    def create(self, user_auth_orm: UserAuthORM) -> UserAuthORM:
+    def create(
+        self, phone_number: str | None = None, email: str | None = None
+    ) -> UserAuthORM:
         pass
 
     @abstractmethod
@@ -23,10 +25,16 @@ class IUserAuthRepository(ABC):
 
 class PostgresUserAuthRepository(IUserAuthRepository):
     def get_by_phone_number(self, phone_number: str) -> UserAuthORM | None:
-        return UserAuthORM.objects.get(phone_number=phone_number)
+        try:
+            return UserAuthORM.objects.get(phone_number=phone_number)
+        except UserAuthORM.DoesNotExist:
+            return None
 
     def get_by_email(self, email: str) -> UserAuthORM | None:
-        return UserAuthORM.objects.get(email=email)
+        try:
+            return UserAuthORM.objects.get(email=email)
+        except UserAuthORM.DoesNotExist:
+            return None
 
     def create(
         self, phone_number: str | None = None, email: str | None = None

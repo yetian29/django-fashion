@@ -36,12 +36,14 @@ class LoginUserAuthUseCase:
     user_auth_service: IUserAuthService
 
     def execute(self, command: LoginUserAuthCommand) -> str:
-        user = self.user_auth_service.get_by_phone_number_or_email(
+        user_auth = self.user_auth_service.get_by_phone_number_or_email(
             phone_number=command.phone_number, email=command.email
         )
         self.code_service.validate_code(
-            phone_number=user.phone_number, email=user.email
+            code=command.code,
+            phone_number=user_auth.phone_number,
+            email=user_auth.email,
         )
-        token = self.login_service.active_and_generate_token(user)
-        self.user_auth_service.update(user)
+        token = self.login_service.active_and_generate_token(user_auth)
+        self.user_auth_service.update(user_auth)
         return token
