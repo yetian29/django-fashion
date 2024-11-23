@@ -83,8 +83,9 @@ class UserAuthService(IUserAuthService):
 
     def get_or_create(self, user_auth: UserAuth) -> UserAuth:
         try:
+            user_auth_orm = UserAuthORM.from_entity(user_auth)
             return self.get_by_phone_number_or_email(
-                phone_number=user_auth.phone_number, email=user_auth.email
+                phone_number=user_auth_orm.phone_number, email=user_auth_orm.email
             )
         except UserAuthIsNotFoundException:
             user_auth_orm = UserAuthORM.from_entity(user_auth)
