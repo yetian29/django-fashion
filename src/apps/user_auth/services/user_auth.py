@@ -18,7 +18,6 @@ from src.apps.user_auth.domain.services import (
     ISendCodeService,
     IUserAuthService,
 )
-from src.apps.user_auth.infrastructure.models import UserAuthORM
 from src.apps.user_auth.infrastructure.repositories import IUserAuthRepository
 from src.helper import fail
 
@@ -83,17 +82,14 @@ class UserAuthService(IUserAuthService):
 
     def get_or_create(self, user_auth: UserAuth) -> UserAuth:
         try:
-            user_auth_orm = UserAuthORM.from_entity(user_auth)
             return self.get_by_phone_number_or_email(
-                phone_number=user_auth_orm.phone_number, email=user_auth_orm.email
+                phone_number=user_auth.phone_number, email=user_auth.email
             )
         except UserAuthIsNotFoundException:
-            user_auth_orm = UserAuthORM.from_entity(user_auth)
             user_auth_orm = self.repository.create(
-                phone_number=user_auth_orm.phone_number, email=user_auth_orm.email
+                phone_number=user_auth.phone_number, email=user_auth.email
             )
             return user_auth_orm.to_entity()
 
     def update(self, user_auth: UserAuth) -> UserAuth:
-        user_auth_orm = UserAuthORM.from_entity(user_auth)
-        self.repository.update(user_auth_orm=user_auth_orm)
+        return self.repository.update(user_auth=user_auth)

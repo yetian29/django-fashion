@@ -12,18 +12,6 @@ class UserAuthORM(BaseOidORM, BaseTimeORM):
     token = models.UUIDField(null=True, blank=True, default=None)
     is_active = models.BooleanField(default=False)
 
-    @staticmethod
-    def from_entity(entity: UserAuth) -> "UserAuthORM":
-        return UserAuthORM(
-            oid=entity.oid,
-            phone_number=entity.phone_number,
-            email=entity.email,
-            token=entity.token,
-            is_active=entity.is_active,
-            created_at=entity.created_at,
-            updated_at=entity.updated_at,
-        )
-
     def to_entity(self) -> UserAuth:
         return UserAuth(
             oid=self.oid,

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 
+from src.apps.user_auth.domain.entities import UserAuth
 from src.apps.user_auth.infrastructure.models import UserAuthORM
 
 
@@ -19,7 +20,7 @@ class IUserAuthRepository(ABC):
         pass
 
     @abstractmethod
-    def update(self, user_auth_orm: UserAuthORM) -> UserAuthORM:
+    def update(self, user_auth: UserAuth) -> UserAuthORM:
         pass
 
 
@@ -43,9 +44,9 @@ class PostgresUserAuthRepository(IUserAuthRepository):
             return UserAuthORM.objects.create(phone_number=phone_number)
         return UserAuthORM.objects.create(email=email)
 
-    def update(self, user_auth_orm: UserAuthORM) -> UserAuthORM:
-        return UserAuthORM.objects.filter(oid=user_auth_orm.oid).update(
-            is_active=user_auth_orm.is_active,
-            token=user_auth_orm.token,
-            updated_at=user_auth_orm.updated_at,
+    def update(self, user_auth: UserAuth) -> UserAuthORM:
+        return UserAuthORM.objects.filter(oid=user_auth.oid).update(
+            is_active=user_auth.is_active,
+            token=user_auth.token,
+            updated_at=user_auth.updated_at,
         )
