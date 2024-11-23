@@ -7,16 +7,15 @@ from src.apps.product.domain.entities import CatalogProduct
 
 
 @dataclass
-class Cart:
+class CartItem:
     oid: UUID
-    customer_oid: UUID
-    products: CatalogProduct
-    total_count: int
-    total_price: int
-    is_active: bool
-    status: CartStatusEnum
-    created_at: datetime
-    updated_at: datetime
+    cart_oid: UUID
+    product: CatalogProduct
+    quantity: int
+
+    @property
+    def cost(self) -> int:
+        return self.product.price * self.quantity
 
     def __eq__(self, obj: object) -> bool:
         if isinstance(obj, self.__class__):
@@ -25,11 +24,16 @@ class Cart:
 
 
 @dataclass
-class CartItem:
+class Cart:
     oid: UUID
-    cart_oid: UUID
-    product: CatalogProduct
-    quantity: int
+    customer_oid: UUID
+    items: set[CartItem]
+    total_count: int
+    total_price: int
+    is_active: bool
+    status: CartStatusEnum
+    created_at: datetime
+    updated_at: datetime
 
     def __eq__(self, obj: object) -> bool:
         if isinstance(obj, self.__class__):
