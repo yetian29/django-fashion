@@ -9,6 +9,8 @@ from src.apps.product.domain.entities import CatalogProduct
 @dataclass
 class Cart:
     oid: UUID
+    customer_oid: UUID
+    products: CatalogProduct
     total_count: int
     total_price: int
     is_active: bool
