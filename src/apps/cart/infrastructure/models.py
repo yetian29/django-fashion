@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from src.apps.base.infrastructure.models import BaseOidORM, BaseTimeORM
@@ -21,9 +22,10 @@ class CartORM(BaseOidORM, BaseTimeORM):
     MAX_CONTAINER = 15
 
     def update_status(self):
-        if len(self.items.all()) > self.MAX_CONTAINER:
+        items_count = self.items_count
+        if items_count > self.MAX_CONTAINER:
             self.status = CartStatus.FULL
-        elif len(self.items.all()) == 0:
+        elif items_count == 0:
             self.status = CartStatus.EMPTY
         else:
             self.status = CartStatus.NORMAL
@@ -36,11 +38,16 @@ class CartORM(BaseOidORM, BaseTimeORM):
     def total_price(self) -> int:
         return sum(item.cost for item in self.items.all())
 
+    class Meta:
+        verbose_name = "CartORM"
+
 
 class CartItemORM(BaseOidORM):
     cart = models.ForeignKey(to=CartORM, on_delete=models.CASCADE)
-    product = models.OneToOneField(to=ProductORM, on_delete=models.CASCADE)
-    quantity = models.PositiveSmallIntegerField(default=1)
+    product = models.ForeignKey(to=ProductORM, on_delete=models.CASCADE)
+    quantity = models.PositiveSmallIntegerField(
+        default=1, validators=[MinValueValidator(1), MaxValueValidator(10)]
+    )
 
     @property
     def cost(self) -> int:
@@ -48,3 +55,4 @@ class CartItemORM(BaseOidORM):
 
     class Meta:
         verbose_name = "CartItemORM"
+        unique_together = ["cart", "product"]
