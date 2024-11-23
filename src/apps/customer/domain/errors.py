@@ -13,5 +13,5 @@ class CodesAreNotEqualException(BaseDomainException):
     pass
 
 
-class UserAuthIsNotFoundException(BaseDomainException):
+class CustomerIsNotFoundException(BaseDomainException):
     pass

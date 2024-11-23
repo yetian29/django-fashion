@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from src.apps.user_auth.domain.entities import UserAuth
+from src.apps.customer.domain.entities import Customer
 
 
 class ICodeService(ABC):
@@ -25,21 +25,21 @@ class ISendCodeService(ABC):
 
 class ILoginService(ABC):
     @abstractmethod
-    def active_and_generate_token(self, user_auth: UserAuth) -> str:
+    def active_and_generate_token(self, customer: Customer) -> str:
         pass
 
 
-class IUserAuthService(ABC):
+class ICustomerService(ABC):
     @abstractmethod
     def get_by_phone_number_or_email(
         self, phone_number: str | None = None, email: str | None = None
-    ) -> UserAuth:
+    ) -> Customer:
         pass
 
     @abstractmethod
-    def get_or_create(self, user_auth: UserAuth) -> UserAuth:
+    def get_or_create(self, customer: Customer) -> Customer:
         pass
 
     @abstractmethod
-    def update(self, user_auth: UserAuth) -> UserAuth:
+    def update(self, customer: Customer) -> Customer:
         pass

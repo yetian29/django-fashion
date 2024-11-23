@@ -1,12 +1,12 @@
 from django.contrib import admin
 
-from src.apps.user_auth.infrastructure.models import UserAuthORM
+from src.apps.customer.infrastructure.models import CustomerORM
 
 # Register your models here.
 
 
-@admin.register(UserAuthORM)
-class UserAuthORMAdmin(admin.ModelAdmin):
+@admin.register(CustomerORM)
+class CustomerORMAdmin(admin.ModelAdmin):
     list_display = [
         "oid",
         "phone_number",

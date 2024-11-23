@@ -4,7 +4,7 @@ from uuid import UUID
 from ninja import Schema
 from pydantic import field_validator, model_validator
 
-from src.apps.user_auth.domain.entities import UserAuth
+from src.apps.customer.domain.entities import Customer
 
 
 class BaseValidateSchema(Schema):
@@ -49,19 +49,19 @@ class BaseValidateSchema(Schema):
         return self
 
 
-class AuthorizeUserAuthInSchema(BaseValidateSchema):
-    def to_entity(self) -> UserAuth:
-        return UserAuth(
+class AuthorizeCustomerInSchema(BaseValidateSchema):
+    def to_entity(self) -> Customer:
+        return Customer(
             phone_number=self.phone_number,
             email=self.email,
         )
 
 
-class AuthorizeUserAuthOutSchema(Schema):
+class AuthorizeCustomerOutSchema(Schema):
     msg: str
 
 
-class LoginUserAuthInSchema(BaseValidateSchema):
+class LoginCustomerInSchema(BaseValidateSchema):
     code: str
 
     @field_validator("code")
@@ -77,7 +77,7 @@ class LoginUserAuthInSchema(BaseValidateSchema):
         return value
 
 
-class LoginUserAuthOutSchema(Schema):
+class LoginCustomerOutSchema(Schema):
     token: UUID
 
     @field_validator("token")

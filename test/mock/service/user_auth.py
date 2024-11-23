@@ -3,21 +3,21 @@ from datetime import datetime, timedelta
 from typing import Any
 from uuid import uuid4
 
-from src.apps.user_auth.domain.entities import UserAuth
-from src.apps.user_auth.domain.errors import (
+from src.apps.customer.domain.entities import Customer
+from src.apps.customer.domain.errors import (
     CachedDataAreNotFoundException,
     CodeIsExpiredException,
     CodesAreNotEqualException,
-    UserAuthIsNotFoundException,
+    CustomerIsNotFoundException,
 )
-from src.apps.user_auth.domain.services import (
+from src.apps.customer.domain.services import (
     ICodeService,
+    ICustomerService,
     ILoginService,
     ISendCodeService,
-    IUserAuthService,
 )
 from src.helper import fail
-from test.mock.factory.user_auth import UserAuthFactory
+from test.mock.factory.customer import CustomerFactory
 
 
 class DummyCodeService(ICodeService):
@@ -59,31 +59,31 @@ class DummySendCodeService(ISendCodeService):
 
 
 class DummyLoginService(ILoginService):
-    def active_and_generate_token(self, user_auth: UserAuth) -> str:
-        user_auth.is_active = True
-        user_auth.token = uuid4()
-        user_auth.updated_at = datetime.now()
-        return user_auth.token
+    def active_and_generate_token(self, customer: Customer) -> str:
+        customer.is_active = True
+        customer.token = uuid4()
+        customer.updated_at = datetime.now()
+        return customer.token
 
 
-class DummyUserAuthService(IUserAuthService):
+class DummyCustomerService(ICustomerService):
     def get_by_phone_number_or_email(
         self, phone_number: str | None = None, email: str | None = None
-    ) -> UserAuth:
+    ) -> Customer:
         if phone_number:
-            return UserAuthFactory.build(phone_number=phone_number)
-        return UserAuthFactory.build(email=email)
+            return CustomerFactory.build(phone_number=phone_number)
+        return CustomerFactory.build(email=email)
 
-    def get_or_create(self, user_auth: UserAuth) -> UserAuth:
+    def get_or_create(self, customer: Customer) -> Customer:
         try:
             return self.get_by_phone_number_or_email(
-                phone_number=user_auth.phone_number, email=user_auth.email
+                phone_number=customer.phone_number, email=customer.email
             )
-        except UserAuthIsNotFoundException:
-            user_auth.oid = uuid4()
-            user_auth.created_at = datetime.now()
-            user_auth.updated_at = datetime.now()
-            return user_auth
+        except CustomerIsNotFoundException:
+            customer.oid = uuid4()
+            customer.created_at = datetime.now()
+            customer.updated_at = datetime.now()
+            return customer
 
-    def update(self, user_auth: UserAuth) -> UserAuth:
-        return user_auth
+    def update(self, customer: Customer) -> Customer:
+        return customer

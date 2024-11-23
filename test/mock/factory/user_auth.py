@@ -1,19 +1,19 @@
 from polyfactory.factories import DataclassFactory
 
-from src.apps.user_auth.domain.commands import (
-    AuthorizeUserAuthCommand,
-    LoginUserAuthCommand,
+from src.apps.customer.domain.commands import (
+    AuthorizeCustomerCommand,
+    LoginCustomerCommand,
 )
-from src.apps.user_auth.domain.entities import UserAuth
+from src.apps.customer.domain.entities import Customer
 
 
-class UserAuthFactory(DataclassFactory[UserAuth]):
-    __model__ = UserAuth
+class CustomerFactory(DataclassFactory[Customer]):
+    __model__ = Customer
 
 
-class AuthorizeUserAuthCommandFactory(DataclassFactory[AuthorizeUserAuthCommand]):
-    __model__ = AuthorizeUserAuthCommand
+class AuthorizeCustomerCommandFactory(DataclassFactory[AuthorizeCustomerCommand]):
+    __model__ = AuthorizeCustomerCommand
 
 
-class LoginUserAuthCommandFactory(DataclassFactory[LoginUserAuthCommand]):
-    __model__ = LoginUserAuthCommand
+class LoginCustomerCommandFactory(DataclassFactory[LoginCustomerCommand]):
+    __model__ = LoginCustomerCommand

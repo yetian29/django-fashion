@@ -5,20 +5,20 @@ from uuid import UUID, uuid4
 
 from django.core.cache import cache
 
-from src.apps.user_auth.domain.entities import UserAuth
-from src.apps.user_auth.domain.errors import (
+from src.apps.customer.domain.entities import Customer
+from src.apps.customer.domain.errors import (
     CachedDataAreNotFoundException,
     CodeIsExpiredException,
     CodesAreNotEqualException,
-    UserAuthIsNotFoundException,
+    CustomerIsNotFoundException,
 )
-from src.apps.user_auth.domain.services import (
+from src.apps.customer.domain.services import (
     ICodeService,
+    ICustomerService,
     ILoginService,
     ISendCodeService,
-    IUserAuthService,
 )
-from src.apps.user_auth.infrastructure.repositories import IUserAuthRepository
+from src.apps.customer.infrastructure.repositories import ICustomerRepository
 from src.helper import fail
 
 
@@ -58,38 +58,38 @@ class SendCodeService(ISendCodeService):
 
 
 class LoginService(ILoginService):
-    def active_and_generate_token(self, user_auth: UserAuth) -> UUID:
-        user_auth.is_active = True
-        user_auth.token = uuid4()
-        user_auth.updated_at = datetime.now()
-        return user_auth.token
+    def active_and_generate_token(self, customer: Customer) -> UUID:
+        customer.is_active = True
+        customer.token = uuid4()
+        customer.updated_at = datetime.now()
+        return customer.token
 
 
 @dataclass(frozen=True)
-class UserAuthService(IUserAuthService):
-    repository: IUserAuthRepository
+class CustomerService(ICustomerService):
+    repository: ICustomerRepository
 
     def get_by_phone_number_or_email(
         self, phone_number: str | None = None, email: str | None = None
-    ) -> UserAuth:
+    ) -> Customer:
         if phone_number:
-            user_auth_orm = self.repository.get_by_phone_number(phone_number)
+            customer_orm = self.repository.get_by_phone_number(phone_number)
         else:
-            user_auth_orm = self.repository.get_by_email(email)
-        if not user_auth_orm:
-            fail(UserAuthIsNotFoundException)
-        return user_auth_orm.to_entity()
+            customer_orm = self.repository.get_by_email(email)
+        if not customer_orm:
+            fail(CustomerIsNotFoundException)
+        return customer_orm.to_entity()
 
-    def get_or_create(self, user_auth: UserAuth) -> UserAuth:
+    def get_or_create(self, customer: Customer) -> Customer:
         try:
             return self.get_by_phone_number_or_email(
-                phone_number=user_auth.phone_number, email=user_auth.email
+                phone_number=customer.phone_number, email=customer.email
             )
-        except UserAuthIsNotFoundException:
-            user_auth_orm = self.repository.create(
-                phone_number=user_auth.phone_number, email=user_auth.email
+        except CustomerIsNotFoundException:
+            customer_orm = self.repository.create(
+                phone_number=customer.phone_number, email=customer.email
             )
-            return user_auth_orm.to_entity()
+            return customer_orm.to_entity()
 
-    def update(self, user_auth: UserAuth) -> UserAuth:
-        return self.repository.update(user_auth=user_auth)
+    def update(self, customer: Customer) -> Customer:
+        return self.repository.update(customer=customer)

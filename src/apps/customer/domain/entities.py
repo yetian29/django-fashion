@@ -4,7 +4,7 @@ from uuid import UUID
 
 
 @dataclass
-class UserAuth:
+class Customer:
     oid: UUID | None = None
     phone_number: str | None = None
     email: str | None = None
