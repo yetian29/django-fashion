@@ -11,17 +11,21 @@ class GetOrCreateCartCommand:
 
 @dataclass(frozen=True)
 class AddItemCommand:
+    cart_oid: UUID
     item: CartItem
 
 
 @dataclass(frozen=True)
 class UpdateItemCommand:
-    item: CartItem
+    cart_oid: UUID
+    item_oid: UUID
+    quantity: int
 
 
 @dataclass(frozen=True)
 class RemoveItemCommand:
-    item: CartItem
+    cart_oid: UUID
+    item_oid: UUID
 
 
 @dataclass(frozen=True)
@@ -31,4 +35,6 @@ class ClearItemsCommand:
 
 @dataclass(frozen=True)
 class IncreaseQtyItemCommand:
-    item: CartItem
+    cart_oid: UUID
+    item_oid: UUID
+    quantity: int

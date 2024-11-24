@@ -25,7 +25,7 @@ class AddItemUseCase:
     service: ICartService
 
     def execute(self, command: AddItemCommand) -> CartItem:
-        return self.service.add_item(item=command.item)
+        return self.service.add_item(cart_oid=command.cart_oid, item=command.item)
 
 
 @dataclass(frozen=True)
@@ -33,7 +33,11 @@ class UpdateItemUseCase:
     service: ICartService
 
     def execute(self, command: UpdateItemCommand) -> CartItem:
-        return self.service.update_item(item=command.item)
+        return self.service.update_item(
+            cart_oid=command.cart_oid,
+            item_oid=command.item_oid,
+            quantity=command.quantity,
+        )
 
 
 @dataclass(frozen=True)
@@ -41,7 +45,9 @@ class RemoveItemUseCase:
     service: ICartService
 
     def execute(self, command: RemoveItemCommand) -> CartItem:
-        return self.service.remove_item(item=command.item)
+        return self.service.remove_item(
+            cart_oid=command.cart_oid, item_oid=command.item_oid
+        )
 
 
 @dataclass(frozen=True)
@@ -57,4 +63,8 @@ class IncreaseQtyItemUseCase:
     service: ICartService
 
     def execute(self, command: IncreaseQtyItemCommand) -> CartItem:
-        return self.service.increase_qty_item(item=command.item)
+        return self.service.increase_qty_item(
+            cart_oid=command.cart_oid,
+            item_oid=command.item_oid,
+            quantity=command.quantity,
+        )
