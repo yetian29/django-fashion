@@ -33,7 +33,8 @@ class ICartRepository(ABC):
 
 class PostgresCartRepository(ICartRepository):
     def get_or_create_cart(self, cart: Cart) -> CartORM:
-        return CartORM.objects.get_or_create(customer_oid=cart.customer_oid)
+        cart_orm, _ = CartORM.objects.get_or_create(customer_oid=cart.customer_oid)
+        return cart_orm
 
     def add_item(self, cart_oid: UUID, item: CartItem) -> CartItemORM:
         cart_orm = CartORM.objects.get(oid=cart_oid)

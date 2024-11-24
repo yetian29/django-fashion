@@ -6,19 +6,19 @@ from src.apps.cart.domain.entities import Cart, CartItem
 
 class ICartService(ABC):
     @abstractmethod
-    def get_or_create(self, cart: Cart) -> Cart:
+    def get_or_create_cart(self, cart: Cart) -> Cart:
         pass
 
     @abstractmethod
-    def add_item(self, item: CartItem) -> CartItem:
+    def add_item(self, cart_oid: UUID, item: CartItem) -> CartItem:
         pass
 
     @abstractmethod
-    def update_item(self, item: CartItem) -> CartItem:
+    def update_item(self, cart_oid: UUID, item_oid: UUID, quantity: int) -> CartItem:
         pass
 
     @abstractmethod
-    def remove_item(self, item: CartItem) -> CartItem:
+    def remove_item(self, cart_oid: UUID, item_oid: UUID) -> CartItem:
         pass
 
     @abstractmethod
@@ -26,5 +26,7 @@ class ICartService(ABC):
         pass
 
     @abstractmethod
-    def increase_qty_item(self, item: CartItem) -> CartItem:
+    def increase_qty_item(
+        self, cart_oid: UUID, item_oid: UUID, quantity: int
+    ) -> CartItem:
         pass
