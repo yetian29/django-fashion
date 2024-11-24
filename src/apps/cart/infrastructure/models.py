@@ -2,6 +2,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 from src.apps.base.infrastructure.models import BaseOidORM, BaseTimeORM
+from src.apps.cart.domain.entities import Cart, CartItem
 from src.apps.customer.infrastructure.models import CustomerORM
 from src.apps.product.infrastructure.models import ProductORM
 
@@ -38,6 +39,19 @@ class CartORM(BaseOidORM, BaseTimeORM):
     def total_price(self) -> int:
         return sum(item.cost for item in self.items.all())
 
+    def to_entity(self) -> Cart:
+        return Cart(
+            oid=self.oid,
+            customer_oid=self.customer.oid,
+            items={self.items.all()},
+            total_count=self.total_count,
+            total_price=self.total_price,
+            is_active=self.is_active,
+            status=self.status,
+            created_at=self.created_at,
+            updated_at=self.updated_at,
+        )
+
     class Meta:
         verbose_name = "CartORM"
 
@@ -52,6 +66,11 @@ class CartItemORM(BaseOidORM):
     )
 
     cost = models.PositiveBigIntegerField(default=0)
+
+    def to_entity(self) -> CartItem:
+        return CartItem(
+            oid=self.oid,
+        )
 
     class Meta:
         verbose_name = "CartItemORM"
