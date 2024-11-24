@@ -43,15 +43,15 @@ class CartORM(BaseOidORM, BaseTimeORM):
 
 
 class CartItemORM(BaseOidORM):
-    cart = models.ForeignKey(to=CartORM, on_delete=models.CASCADE)
+    cart = models.ForeignKey(
+        to=CartORM, on_delete=models.CASCADE, related_name="cart_items"
+    )
     product = models.ForeignKey(to=ProductORM, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(10)]
     )
 
-    @property
-    def cost(self) -> int:
-        return self.product.price * self.quantity
+    cost = models.PositiveBigIntegerField(default=0)
 
     class Meta:
         verbose_name = "CartItemORM"
