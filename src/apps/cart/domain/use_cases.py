@@ -4,9 +4,9 @@ from src.apps.cart.domain.commands import (
     AddItemCommand,
     ClearItemsCommand,
     GetOrCreateCartCommand,
-    IncreaseQtyItemCommand,
+    IncreaseItemQuantityCommand,
     RemoveItemCommand,
-    UpdateItemCommand,
+    UpdateItemQuantityCommand,
 )
 from src.apps.cart.domain.entities import Cart, CartItem
 from src.apps.cart.domain.services import ICartService
@@ -29,10 +29,10 @@ class AddItemUseCase:
 
 
 @dataclass(frozen=True)
-class UpdateItemUseCase:
+class UpdateItemQuantityUseCase:
     service: ICartService
 
-    def execute(self, command: UpdateItemCommand) -> CartItem:
+    def execute(self, command: UpdateItemQuantityCommand) -> CartItem:
         return self.service.update_item(
             cart_oid=command.cart_oid,
             item_oid=command.item_oid,
@@ -59,10 +59,10 @@ class ClearItemsUseCase:
 
 
 @dataclass(frozen=True)
-class IncreaseQtyItemUseCase:
+class IncreaseItemQuantityUseCase:
     service: ICartService
 
-    def execute(self, command: IncreaseQtyItemCommand) -> CartItem:
+    def execute(self, command: IncreaseItemQuantityCommand) -> CartItem:
         return self.service.increase_qty_item(
             cart_oid=command.cart_oid,
             item_oid=command.item_oid,

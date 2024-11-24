@@ -14,7 +14,9 @@ class ICartService(ABC):
         pass
 
     @abstractmethod
-    def update_item(self, cart_oid: UUID, item_oid: UUID, quantity: int) -> CartItem:
+    def update_item_quantity(
+        self, cart_oid: UUID, item_oid: UUID, quantity: int
+    ) -> CartItem:
         pass
 
     @abstractmethod
@@ -26,7 +28,7 @@ class ICartService(ABC):
         pass
 
     @abstractmethod
-    def increase_qty_item(
+    def increase_item_quantity(
         self, cart_oid: UUID, item_oid: UUID, quantity: int
     ) -> CartItem:
         pass

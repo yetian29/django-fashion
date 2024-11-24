@@ -16,7 +16,7 @@ class AddItemCommand:
 
 
 @dataclass(frozen=True)
-class UpdateItemCommand:
+class UpdateItemQuantityCommand:
     cart_oid: UUID
     item_oid: UUID
     quantity: int
@@ -34,7 +34,7 @@ class ClearItemsCommand:
 
 
 @dataclass(frozen=True)
-class IncreaseQtyItemCommand:
+class IncreaseItemQuantityCommand:
     cart_oid: UUID
     item_oid: UUID
     quantity: int

@@ -15,7 +15,9 @@ class ICartRepository(ABC):
         pass
 
     @abstractmethod
-    def update_item(self, cart_oid: UUID, item_oid: UUID, quantity: int) -> CartItemORM:
+    def update_item_quantity(
+        self, cart_oid: UUID, item_oid: UUID, quantity: int
+    ) -> CartItemORM:
         pass
 
     @abstractmethod
@@ -27,7 +29,7 @@ class ICartRepository(ABC):
         pass
 
     @abstractmethod
-    def increase_qty_item(self, item: CartItem) -> CartItemORM:
+    def increase_item_quantity(self, item: CartItem) -> CartItemORM:
         pass
 
 
@@ -43,7 +45,9 @@ class PostgresCartRepository(ICartRepository):
         )
         return cart_item_orm
 
-    def update_item(self, cart_oid: UUID, item_oid: UUID, quantity: int) -> CartItemORM:
+    def update_item_quantity(
+        self, cart_oid: UUID, item_oid: UUID, quantity: int
+    ) -> CartItemORM:
         cart_item_orm = CartItemORM.objects.get(cart__oid=cart_oid, oid=item_oid)
         cart_item_orm.quantity += quantity
         cart_item_orm.save(update_fields=["quantity"])
