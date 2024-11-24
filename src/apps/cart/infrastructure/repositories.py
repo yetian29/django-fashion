@@ -1,13 +1,14 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
 
-from src.apps.cart.domain.entities import Cart, CartItem
+from src.apps.cart.domain.entities import CartItem
 from src.apps.cart.infrastructure.models import CartItemORM, CartORM
+from src.apps.customer.infrastructure.models import CustomerORM
 
 
 class ICartRepository(ABC):
     @abstractmethod
-    def get_or_create_cart(self, cart: Cart) -> CartORM:
+    def get_or_create_cart(self, customer_oid: UUID) -> CartORM:
         pass
 
     @abstractmethod
@@ -34,8 +35,9 @@ class ICartRepository(ABC):
 
 
 class PostgresCartRepository(ICartRepository):
-    def get_or_create_cart(self, cart: Cart) -> CartORM:
-        cart_orm, _ = CartORM.objects.get_or_create(customer_oid=cart.customer_oid)
+    def get_or_create_cart(self, customer_oid: UUID) -> CartORM:
+        customer_orm = CustomerORM.objects.get(oid=customer_oid)
+        cart_orm, _ = CartORM.objects.get_or_create(customer=customer_orm)
         return cart_orm
 
     def add_item(self, cart_oid: UUID, item: CartItem) -> CartItemORM:

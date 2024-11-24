@@ -33,7 +33,7 @@ class UpdateItemQuantityUseCase:
     service: ICartService
 
     def execute(self, command: UpdateItemQuantityCommand) -> CartItem:
-        return self.service.update_item(
+        return self.service.update_item_quantity(
             cart_oid=command.cart_oid,
             item_oid=command.item_oid,
             quantity=command.quantity,
@@ -63,7 +63,7 @@ class IncreaseItemQuantityUseCase:
     service: ICartService
 
     def execute(self, command: IncreaseItemQuantityCommand) -> CartItem:
-        return self.service.increase_qty_item(
+        return self.service.increase_item_quantity(
             cart_oid=command.cart_oid,
             item_oid=command.item_oid,
             quantity=command.quantity,
