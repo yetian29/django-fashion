@@ -1,19 +1,19 @@
 import re
 from uuid import UUID
 
-from ninja import Schema
+from ninja import Field, Schema
 from pydantic import field_validator, model_validator
 
 from src.apps.customer.domain.entities import Customer
 
 
 class BaseValidateSchema(Schema):
-    phone_number: str | None = None
-    email: str | None = None
+    phone_number: str = Field(default="")
+    email: str = Field(default="")
 
     @field_validator("phone_number")
     @classmethod
-    def validate_phone_number(cls, value: str | None = None) -> str | None:
+    def validate_phone_number(cls, value: str = "") -> str:
         value = value.strip()
         if not value:
             return None
@@ -27,7 +27,7 @@ class BaseValidateSchema(Schema):
 
     @field_validator("email")
     @classmethod
-    def validate_email(cls, value: str | None = None) -> str | None:
+    def validate_email(cls, value: str = "") -> str:
         value = value.strip()
         if not value:
             return None
@@ -62,7 +62,7 @@ class AuthorizeCustomerOutSchema(Schema):
 
 
 class LoginCustomerInSchema(BaseValidateSchema):
-    code: str
+    code: str = Field(default="")
 
     @field_validator("code")
     @classmethod
