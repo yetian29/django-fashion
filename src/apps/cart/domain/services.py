@@ -18,11 +18,11 @@ class ICartService(ABC):
         pass
 
     @abstractmethod
-    def remove_item(self, cart_oid: UUID, item_oid: UUID) -> CartItem:
+    def remove_item(self, item: CartItem) -> CartItem:
         pass
 
     @abstractmethod
-    def clear(self, cart_oid: UUID) -> list[CartItem]:
+    def clear_items(self, cart_oid: UUID) -> list[CartItem]:
         pass
 
     @abstractmethod
