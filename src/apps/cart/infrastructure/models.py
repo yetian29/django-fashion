@@ -13,12 +13,12 @@ class CartStatus(models.TextChoices):
 
 
 class CartORM(BaseOidORM, BaseTimeORM):
-    customer = models.ForeignKey(to=CustomerORM, on_delete=models.CASCADE)
-    items = models.ManyToManyField(
-        to=ProductORM, through="CartItemORM", on_delte=models.PROTECT
-    )
+    customer = models.ForeignKey(to=CustomerORM, on_delete=models.CASCADE, null=True)
+    items = models.ManyToManyField(to=ProductORM, through="CartItemORM")
     is_active = models.BooleanField(default=False)
-    status = models.CharField(choices=CartStatus.choices, default=CartStatus.EMPTY)
+    status = models.CharField(
+        max_length=16, choices=CartStatus.choices, default=CartStatus.EMPTY
+    )
     MAX_CONTAINER = 15
 
     def update_status(self):

@@ -23,5 +23,9 @@ class CustomerORM(BaseOidORM, BaseTimeORM):
             updated_at=self.updated_at,
         )
 
+    def __str__(self):
+        key = self.phone_number if self.phone_number else self.email
+        return key
+
     class Meta:
         verbose_name = "CustomerORM"
