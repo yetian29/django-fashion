@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('customer', '0003_alter_customerorm_token'),
+        ("customer", "0003_alter_customerorm_token"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='customerorm',
-            name='token',
+            model_name="customerorm",
+            name="token",
             field=models.UUIDField(blank=True, default=None, null=True),
         ),
     ]
