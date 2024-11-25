@@ -7,8 +7,8 @@ from src.apps.customer.domain.entities import Customer
 
 
 class CustomerORM(BaseOidORM, BaseTimeORM):
-    phone_number = models.CharField(max_length=10, blank=True, null=True, default=None)
-    email = models.CharField(max_length=32, blank=True, null=True, default=None)
+    phone_number = models.CharField(max_length=10, blank=True, null=True, default="")
+    email = models.CharField(max_length=32, blank=True, null=True, default="")
     token = models.UUIDField(null=True, blank=True, default=None)
     is_active = models.BooleanField(default=False)
 
