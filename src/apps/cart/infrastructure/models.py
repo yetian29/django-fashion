@@ -23,7 +23,7 @@ class CartORM(BaseOidORM, BaseTimeORM):
     MAX_CONTAINER = 15
 
     def update_status(self):
-        items_count = self.items_count
+        items_count = self.items.count()
         if items_count > self.MAX_CONTAINER:
             self.status = CartStatus.FULL
         elif items_count == 0:
