@@ -17,19 +17,27 @@ class CartService(ICartService):
     def add_item(self, cart_oid: UUID, item: CartItem) -> CartItem:
         cart_item_orm = self.repository.add_item(cart_oid, item)
         return cart_item_orm.to_entity()
-    
-    def update_item_quantity(self, cart_oid: UUID, item_oid: UUID, quantity: int) -> CartItem:
-        cart_item_orm = self.repository.update_item_quantity(cart_oid, item_oid, quantity)
+
+    def update_item_quantity(
+        self, cart_oid: UUID, item_oid: UUID, quantity: int
+    ) -> CartItem:
+        cart_item_orm = self.repository.update_item_quantity(
+            cart_oid, item_oid, quantity
+        )
         return cart_item_orm.to_entity()
-    
+
     def remove_item(self, cart_oid: UUID, item_oid: UUID) -> CartItem:
         cart_item_orm = self.repository.remove_item(cart_oid, item_oid)
         return cart_item_orm.to_entity()
-    
+
     def clear_items(self, cart_oid: UUID) -> list[CartItem]:
         cart_items_orm = self.repository.clear_items(cart_oid)
         return [cart_item_orm.to_entity() for cart_item_orm in cart_items_orm]
 
-    def increase_item_quantity(self, cart_oid: UUID, item_oid: UUID, quantity: int) -> CartItem:
-        cart_item_orm = self.repository.increase_item_quantity(cart_oid, item_oid, quantity)
+    def increase_item_quantity(
+        self, cart_oid: UUID, item_oid: UUID, quantity: int
+    ) -> CartItem:
+        cart_item_orm = self.repository.increase_item_quantity(
+            cart_oid, item_oid, quantity
+        )
         return cart_item_orm.to_entity()
