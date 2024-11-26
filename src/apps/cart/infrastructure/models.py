@@ -70,6 +70,9 @@ class CartItemORM(BaseOidORM):
     def to_entity(self) -> CartItem:
         return CartItem(
             oid=self.oid,
+            cart_oid=self.cart.oid,
+            product=self.product,
+            quantity=self.quantity,
         )
 
     class Meta:

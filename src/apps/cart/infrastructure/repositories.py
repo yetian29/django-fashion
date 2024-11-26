@@ -8,6 +8,7 @@ from django.db import transaction
 from src.apps.cart.domain.entities import CartItem
 from src.apps.cart.infrastructure.models import CartItemORM, CartORM
 from src.apps.customer.infrastructure.models import CustomerORM
+from src.apps.product.infrastructure.models import ProductORM
 
 
 class ICartRepository(ABC):
@@ -59,12 +60,25 @@ class MixinCartRepository(ICartRepository):
         return json.dumps(
             {
                 "oid": str(item.oid),
+                "cart_oid": str(item.cart_oid),
                 "product_oid": str(item.product.oid),
                 "product_name": item.product.name,
                 "quantity": item.quantity,
-                "price": float(item.product.price),
+                "price": item.product.price,
                 "cost": item.cost,
             }
+        )
+
+    def _deserialize_cart_item(self, serialize: str) -> CartItem:
+        item_data = json.loads(serialize)
+        product = ProductORM.objects.get(oid=UUID(item_data["product_oid"]))
+
+        return CartItem(
+            oid=item_data["oid"],
+            cart_oid=item_data["cart_oid"],
+            product=product,
+            quantity=item_data["quantity"],
+            cost=item_data["cost"],
         )
 
     def get_or_create_cart(self, customer_oid: UUID) -> CartORM:
@@ -116,7 +130,7 @@ class MixinCartRepository(ICartRepository):
         # Lấy item từ Redis và cập nhật
         existing_item = self.redis.hget(cart_items_key, str(item_oid))
         if existing_item:
-            item_data = json.loads(existing_item)
+            item_data = self._deserialize_cart_item(existing_item)
             item_data["quantity"] += quantity
             self.redis.hset(cart_items_key, str(item_oid), json.dumps(item_data))
         return cart_item_orm
@@ -154,8 +168,10 @@ class MixinCartRepository(ICartRepository):
 
         existing_item = self.redis.hget(cart_items_key, str(item_oid))
         if existing_item:
-            item_data = json.loads(existing_item)
-            item_data["quantity"] += quantity
+            item_data = self._deserialize_cart_item(existing_item)
+            item_data["quantity"] = quantity
 
-            self.redis.hset(cart_items_key, str(item_oid), json.dumps(item_data))
+            self.redis.hset(
+                cart_items_key, str(item_oid), self._serialize_cart_item(item_data)
+            )
         return cart_item_orm
