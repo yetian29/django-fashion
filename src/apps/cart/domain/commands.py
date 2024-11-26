@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 from uuid import UUID
 
-from src.apps.cart.domain.entities import Cart, CartItem
+from src.apps.cart.domain.entities import CartItem
 
 
 @dataclass(frozen=True)
 class GetOrCreateCartCommand:
-    cart: Cart
+    customer_oid: UUID
 
 
 @dataclass(frozen=True)

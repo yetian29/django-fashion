@@ -17,7 +17,7 @@ class GetOrCreateCartUseCase:
     service: ICartService
 
     def execute(self, command: GetOrCreateCartCommand) -> Cart:
-        return self.service.get_or_create(cart=command.cart)
+        return self.service.get_or_create_cart(customer_oid=command.customer_oid)
 
 
 @dataclass(frozen=True)

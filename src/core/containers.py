@@ -2,6 +2,19 @@ from functools import lru_cache
 
 import punq
 
+from src.apps.cart.domain.services import ICartService
+from src.apps.cart.domain.use_cases import (
+    ClearItemsUseCase,
+    GetOrCreateCartUseCase,
+    IncreaseItemQuantityUseCase,
+    RemoveItemUseCase,
+    UpdateItemQuantityUseCase,
+)
+from src.apps.cart.infrastructure.repositories import (
+    ICartRepository,
+    MixinCartRepository,
+)
+from src.apps.cart.services.cart import CartService
 from src.apps.customer.domain.services import (
     ICodeService,
     ICustomerService,
@@ -38,6 +51,14 @@ def get_container() -> punq.Container:
 
 def init_container() -> punq.Container:
     container = punq.Container()
+
+    container.register(ICartRepository, MixinCartRepository)
+    container.register(ICartService, CartService)
+    container.register(GetOrCreateCartUseCase)
+    container.register(UpdateItemQuantityUseCase)
+    container.register(RemoveItemUseCase)
+    container.register(ClearItemsUseCase)
+    container.register(IncreaseItemQuantityUseCase)
 
     container.register(ICustomerRepository, PostgresCustomerRepository)
     container.register(ICodeService, CodeService)
