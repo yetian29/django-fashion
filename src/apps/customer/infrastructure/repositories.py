@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from uuid import UUID
 
 from src.apps.customer.domain.entities import Customer
 from src.apps.customer.infrastructure.models import CustomerORM
@@ -11,6 +12,10 @@ class ICustomerRepository(ABC):
 
     @abstractmethod
     def get_by_email(self, email: str) -> CustomerORM | None:
+        pass
+
+    @abstractmethod
+    def get_by_token(self, token: UUID) -> CustomerORM | None:
         pass
 
     @abstractmethod
@@ -34,6 +39,12 @@ class PostgresCustomerRepository(ICustomerRepository):
     def get_by_email(self, email: str) -> CustomerORM | None:
         try:
             return CustomerORM.objects.get(email=email)
+        except CustomerORM.DoesNotExist:
+            return None
+
+    def get_by_token(self, token: UUID) -> CustomerORM | None:
+        try:
+            return CustomerORM.objects.get(token=token)
         except CustomerORM.DoesNotExist:
             return None
 

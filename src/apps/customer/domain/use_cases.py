@@ -2,14 +2,24 @@ from dataclasses import dataclass
 
 from src.apps.customer.domain.commands import (
     AuthorizeCustomerCommand,
+    GetCustomerCommand,
     LoginCustomerCommand,
 )
+from src.apps.customer.domain.entities import Customer
 from src.apps.customer.domain.services import (
     ICodeService,
     ICustomerService,
     ILoginService,
     ISendCodeService,
 )
+
+
+@dataclass(frozen=True)
+class GetCustomerUseCase:
+    customer_service: ICustomerService
+
+    def execute(self, command: GetCustomerCommand) -> Customer:
+        return self.customer_service.get_by_token(token=command.token)
 
 
 @dataclass(frozen=True)

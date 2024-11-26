@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from uuid import UUID
 
 from src.apps.customer.domain.entities import Customer
 
@@ -34,6 +35,10 @@ class ICustomerService(ABC):
     def get_by_phone_number_or_email(
         self, phone_number: str | None = None, email: str | None = None
     ) -> Customer:
+        pass
+
+    @abstractmethod
+    def get_by_token(self, token: UUID) -> Customer:
         pass
 
     @abstractmethod

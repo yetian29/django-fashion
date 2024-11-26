@@ -86,11 +86,14 @@ class MixinCartRepository(ICartRepository):
         cart_key = self._generate_cart_key(customer_oid=customer_orm.oid)
         cached_cart = self.redis.get(cart_key)
         if cached_cart:
-            return CartORM.objects.get(customer=customer_orm)
-
+            print("cached_cart:", cached_cart)
+            try:
+                return CartORM.objects.get(customer__oid=customer_oid)
+            except CartORM.DoesNotExist:
+                pass
         # Create or Get Cart from Postgresql
         cart_orm, _ = CartORM.objects.get_or_create(
-            customer__oid=customer_oid, defaults={"is_active": True}
+            customer=customer_orm, is_active=True
         )
         self.redis.setex(cart_key, 3600, str(cart_orm.oid))
         return cart_orm

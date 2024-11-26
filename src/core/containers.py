@@ -1,6 +1,7 @@
 from functools import lru_cache
 
 import punq
+import redis
 
 from src.apps.cart.domain.services import ICartService
 from src.apps.cart.domain.use_cases import (
@@ -23,6 +24,7 @@ from src.apps.customer.domain.services import (
 )
 from src.apps.customer.domain.use_cases import (
     AuthorizeCustomerUseCase,
+    GetCustomerUseCase,
     LoginCustomerUseCase,
 )
 from src.apps.customer.infrastructure.repositories import (
@@ -52,6 +54,12 @@ def get_container() -> punq.Container:
 def init_container() -> punq.Container:
     container = punq.Container()
 
+    container.register(
+        redis.Redis,
+        factory=lambda: redis.Redis(host="127.0.0.1", port=6379, decode_responses=True),
+        scope=punq.Scope.singleton,
+    )
+
     container.register(ICartRepository, MixinCartRepository)
     container.register(ICartService, CartService)
     container.register(GetOrCreateCartUseCase)
@@ -67,6 +75,7 @@ def init_container() -> punq.Container:
     container.register(ICustomerService, CustomerService)
     container.register(AuthorizeCustomerUseCase)
     container.register(LoginCustomerUseCase)
+    container.register(GetCustomerUseCase)
 
     container.register(IProductRepository, PostgresProductRepository)
     container.register(IProductService, ProductService)

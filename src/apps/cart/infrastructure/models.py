@@ -43,7 +43,7 @@ class CartORM(BaseOidORM, BaseTimeORM):
         return Cart(
             oid=self.oid,
             customer_oid=self.customer.oid,
-            items={self.items.all()},
+            items={item.to_entity() for item in self.items.all()},
             total_count=self.total_count,
             total_price=self.total_price,
             is_active=self.is_active,
@@ -51,6 +51,14 @@ class CartORM(BaseOidORM, BaseTimeORM):
             created_at=self.created_at,
             updated_at=self.updated_at,
         )
+
+    def __str__(self) -> str:
+        key = (
+            self.customer.phone_number
+            if self.customer.phone_number
+            else self.customer.email
+        )
+        return f"Cart {key}"
 
     class Meta:
         verbose_name = "CartORM"

@@ -91,5 +91,11 @@ class CustomerService(ICustomerService):
             )
             return customer_orm.to_entity()
 
+    def get_by_token(self, token: UUID) -> Customer:
+        customer_orm = self.repository.get_by_token(token)
+        if not customer_orm:
+            fail(CustomerIsNotFoundException)
+        return customer_orm.to_entity()
+
     def update(self, customer: Customer) -> Customer:
         return self.repository.update(customer=customer)
