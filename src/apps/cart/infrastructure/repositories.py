@@ -30,7 +30,7 @@ class ICartRepository(ABC):
 
     @abstractmethod
     @transaction.atomic
-    def remove_item(self, item: CartItem) -> CartItemORM:
+    def remove_item(self, cart_oid: UUID, item_oid: UUID) -> CartItemORM:
         pass
 
     @abstractmethod
