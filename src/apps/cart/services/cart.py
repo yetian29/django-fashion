@@ -3,6 +3,7 @@ from uuid import UUID
 
 from src.apps.cart.domain.entities import Cart, CartItem
 from src.apps.cart.domain.services import ICartService
+from src.apps.cart.infrastructure.models import CartItemORM
 from src.apps.cart.infrastructure.repositories import ICartRepository
 
 
@@ -15,7 +16,8 @@ class CartService(ICartService):
         return cart_orm.to_entity()
 
     def add_item(self, cart_oid: UUID, item: CartItem) -> CartItem:
-        cart_item_orm = self.repository.add_item(cart_oid, item)
+        item_orm = CartItemORM.from_entity(item)
+        cart_item_orm = self.repository.add_item(cart_oid, item_orm)
         return cart_item_orm.to_entity()
 
     def update_item_quantity(

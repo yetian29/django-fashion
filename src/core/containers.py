@@ -56,7 +56,9 @@ def init_container() -> punq.Container:
 
     container.register(
         redis.Redis,
-        factory=lambda: redis.Redis(host="127.0.0.1", port=6379, decode_responses=True),
+        factory=lambda: redis.Redis(
+            host="127.0.0.1", port=6379, db=0, decode_responses=True
+        ),
         scope=punq.Scope.singleton,
     )
 

@@ -18,7 +18,7 @@ class ICartRepository(ABC):
 
     @abstractmethod
     @transaction.atomic
-    def add_item(self, cart_oid: UUID, item: CartItem) -> CartItemORM:
+    def add_item(self, cart_oid: UUID, item_orm: CartItemORM) -> CartItemORM:
         pass
 
     @abstractmethod
@@ -86,7 +86,6 @@ class MixinCartRepository(ICartRepository):
         cart_key = self._generate_cart_key(customer_oid=customer_orm.oid)
         cached_cart = self.redis.get(cart_key)
         if cached_cart:
-            print("cached_cart:", cached_cart)
             try:
                 return CartORM.objects.get(customer__oid=customer_oid)
             except CartORM.DoesNotExist:

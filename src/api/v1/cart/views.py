@@ -28,3 +28,10 @@ def get_or_create_cart_views(
     use_case2: GetOrCreateCartUseCase = container.resolve(GetOrCreateCartUseCase)
     cart = use_case2.execute(command2)
     return ApiResponse(data=CartOutSchema.to_entity(cart))
+
+
+@router.post("/{cart_oid}")
+def add_item_views(
+    request: HttpRequest, cart_oid: UUID, token: UUID = Header(alias="Auth-Token")
+) -> ApiResponse[CartItemOutSchema]:
+    pass

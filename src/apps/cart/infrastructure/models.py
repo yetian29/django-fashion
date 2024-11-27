@@ -1,3 +1,4 @@
+from uuid import uuid4
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
@@ -14,7 +15,12 @@ class CartStatus(models.TextChoices):
 
 
 class CartORM(BaseOidORM, BaseTimeORM):
-    customer = models.ForeignKey(to=CustomerORM, on_delete=models.CASCADE, null=True)
+    customer = models.ForeignKey(
+        to=CustomerORM,
+        on_delete=models.CASCADE,
+        null=True,
+        related_name="customer_carts",
+    )
     items = models.ManyToManyField(to=ProductORM, through="CartItemORM")
     is_active = models.BooleanField(default=False)
     status = models.CharField(
@@ -68,12 +74,24 @@ class CartItemORM(BaseOidORM):
     cart = models.ForeignKey(
         to=CartORM, on_delete=models.CASCADE, related_name="cart_items"
     )
-    product = models.ForeignKey(to=ProductORM, on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        to=ProductORM, on_delete=models.CASCADE, related_name="product_items"
+    )
     quantity = models.PositiveSmallIntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(10)]
     )
 
     cost = models.PositiveBigIntegerField(default=0)
+
+    @staticmethod
+    def from_entity(entity: CartItem) -> "CartItemORM":
+        return CartItemORM(
+            oid=entity.oid,
+            cart=CartORM.objects.get(oid=entity.cart_oid),
+            product=ProductORM.object.get(oid=entity.produdct.oid),
+            quantity=entity.quantity,
+            cost=entity.cost,
+        )
 
     def to_entity(self) -> CartItem:
         return CartItem(
@@ -81,6 +99,7 @@ class CartItemORM(BaseOidORM):
             cart_oid=self.cart.oid,
             product=self.product,
             quantity=self.quantity,
+            cost=self.cost,
         )
 
     class Meta:
