@@ -13,4 +13,4 @@ services:
       - redis 
       - minio
     volumes:
-      - ../src/:/app/src/
+      - ../src/:/src/
