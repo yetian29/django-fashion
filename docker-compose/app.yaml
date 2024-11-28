@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  main-app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: main-app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis 
+      - minio
+    volumes:
+      - ../src/:/app/src/
