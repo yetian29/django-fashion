@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     "src.apps.base",
     "src.apps.product",
     "src.apps.customer",
-    "src.apps.cart",
 ]
 
 MIDDLEWARE = [
@@ -143,14 +142,12 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Itegration Redis
+REDIS_URL = env("REDIS_URL", default="redis://localhost:6379/0")
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/0",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
-        },
+        "LOCATION": REDIS_URL,
     }
 }
 

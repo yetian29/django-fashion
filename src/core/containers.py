@@ -1,21 +1,7 @@
 from functools import lru_cache
 
 import punq
-import redis
 
-from src.apps.cart.domain.services import ICartService
-from src.apps.cart.domain.use_cases import (
-    ClearItemsUseCase,
-    GetOrCreateCartUseCase,
-    IncreaseItemQuantityUseCase,
-    RemoveItemUseCase,
-    UpdateItemQuantityUseCase,
-)
-from src.apps.cart.infrastructure.repositories import (
-    ICartRepository,
-    MixinCartRepository,
-)
-from src.apps.cart.services.cart import CartService
 from src.apps.customer.domain.services import (
     ICodeService,
     ICustomerService,
@@ -53,22 +39,6 @@ def get_container() -> punq.Container:
 
 def init_container() -> punq.Container:
     container = punq.Container()
-
-    container.register(
-        redis.Redis,
-        factory=lambda: redis.Redis(
-            host="127.0.0.1", port=6379, db=0, decode_responses=True
-        ),
-        scope=punq.Scope.singleton,
-    )
-
-    container.register(ICartRepository, MixinCartRepository)
-    container.register(ICartService, CartService)
-    container.register(GetOrCreateCartUseCase)
-    container.register(UpdateItemQuantityUseCase)
-    container.register(RemoveItemUseCase)
-    container.register(ClearItemsUseCase)
-    container.register(IncreaseItemQuantityUseCase)
 
     container.register(ICustomerRepository, PostgresCustomerRepository)
     container.register(ICodeService, CodeService)
